@@ -54,6 +54,30 @@ $(document).ready(function(){
 			$(element).parents('.control-group').addClass('success');
 		}
 	});
+
+	// Add category Validation
+    $("#add_category").validate({
+		rules:{
+			category_name:{
+				required:true
+			},
+			description:{
+				required:true,
+			},
+			url:{
+				required:true,
+			}
+		},
+		errorClass: "help-inline",
+		errorElement: "span",
+		highlight:function(element, errorClass, validClass) {
+			$(element).parents('.control-group').addClass('error');
+		},
+		unhighlight: function(element, errorClass, validClass) {
+			$(element).parents('.control-group').removeClass('error');
+			$(element).parents('.control-group').addClass('success');
+		}
+	});
 	
 	$("#number_validate").validate({
 		rules:{
@@ -109,5 +133,23 @@ $(document).ready(function(){
 			$(element).parents('.control-group').removeClass('error');
 			$(element).parents('.control-group').addClass('success');
 		}
+	});
+
+	/*$('#delCat').click(function(event){
+		var button = $(event.relatedTarget)
+
+		var cat_id = button.data('catid')
+		var modal = $(this)
+
+		modal.find('.modal-body #cat_id').val(cat_id);
+	});*/
+
+	$("#delCat").on("click", function(){
+		if(confirm('Are you sure you want to delete this Category?')){
+			return true;
+		}
+		return false;
+		//console.log('Modal delete!');
+		//$('#category-delete-show').modal();
 	});
 });
