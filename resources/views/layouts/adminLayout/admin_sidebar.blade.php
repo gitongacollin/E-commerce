@@ -8,6 +8,12 @@
         <li><a href="{{ url('/admin/view-category')}}">View Categories  </a></li>
       </ul>
     </li>
+    <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Products</span> <span class="label label-important">0</span></a>
+      <ul>
+        <li><a href="{{ url('/admin/add-product')}}">Add Product</a></li>
+        <li><a href="{{ url('/admin/view-product')}}">View Product  </a></li>
+      </ul>
+    </li>
     <li> <a href="#"><i class="icon icon-inbox"></i> <span>Invoice</span></a> </li>
     <li><a href="tables.html"><i class="icon icon-th"></i> <span>Tables</span></a></li>
     <li><a href="grid.html"><i class="icon icon-fullscreen"></i> <span>Full width</span></a></li>
