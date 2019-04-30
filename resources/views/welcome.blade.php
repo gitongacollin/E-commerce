@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Soko Soko
                 </div>
 
                 <div class="links">
