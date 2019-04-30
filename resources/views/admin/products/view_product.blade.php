@@ -58,8 +58,9 @@
                     @endif
                   </td>
                   <td class="center"> 
-                    <a href="#myModal{{ $product->id}}" data-toggle="modal" class="btn btn-success btn-mini">View</a> 
-                    <a href="{{ url('admin/edit-product/'. $product->id) }}" class="btn btn-primary btn-mini">Edit</a> 
+                    <a href="#myModal{{ $product->id}}" data-toggle="modal" class="btn btn-success btn-mini">View</a>
+                    <a href="{{ url('admin/edit-product/'. $product->id) }}" class="btn btn-primary btn-mini">Edit</a>  
+                    <a href="{{ url('admin/add-attribute/'. $product->id) }}" class="btn btn-success btn-mini">Attribute</a>
                     <a rel="{{ $product->id }}" rel1="delete-product" <?php /*href="{{ url('/admin/delete-prroduct/' .$product->id)}}" */?> href="javascript:" class="btn btn-danger btn-mini deleteRecord">Delete</a></td>
                 </tr>
 

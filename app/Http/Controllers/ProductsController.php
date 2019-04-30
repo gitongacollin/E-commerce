@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use Auth;
 use Session;
 use App\Category;
 use App\Product;
-use Illuminate\Support\Facades\Input;
 use Image;
+use App\ProductsAttribute;
 
 class ProductsController extends Controller
 {
@@ -158,12 +159,12 @@ class ProductsController extends Controller
         return redirect()->back()->with('flash_message_success', 'Product image has been deleted successfully');
     }
 
-       public function deleteProduct($id = null){
+    public function deleteProduct($id = null){
         if(!empty($id)){
             Product::where(['id' =>$id])->delete();
             return redirect()->back()->with('flash_message_success','Product Successfully deleted!'); 
         }
-       }
+    }
 
     public function viewProduct()
     {
@@ -174,5 +175,44 @@ class ProductsController extends Controller
             $products[$key]->category_name = $category_name->name;
         }
         return view('admin.products.view_product')->with(compact('products'));
+    }
+
+    public function addAttribute(Request $request, $id=null){
+        $productDetails = Product::with('attributes')->where(['id' => $id])->first();
+        $productDetails = json_decode(json_encode($productDetails));
+        //echo "<pre>"; print_r($productDetails); die;
+        $categoryDetails = Category::where(['id'=>$productDetails->category_id])->first();
+        $category_name = $categoryDetails->name;
+        if($request->isMethod('post')){
+            $data = $request->all();
+            //echo "<pre>"; print_r($data); die;
+            foreach($data['sku'] as $key => $val){
+                if(!empty($val)){
+                    $attrCountSKU = ProductsAttribute::where(['sku'=>$val])->count();
+                    if($attrCountSKU>0){
+                        return redirect('admin/add-attribute/'.$id)->with('flash_message_error', 'SKU already exists. Please add another SKU.');    
+                    }
+                    $attrCountSizes = ProductsAttribute::where(['product_id'=>$id,'size'=>$data['size'][$key]])->count();
+                    if($attrCountSizes>0){
+                        return redirect('admin/add-attribute/'.$id)->with('flash_message_error', 'Attribute already exists. Please add another Attribute.');    
+                    }
+                    $attr = new ProductsAttribute;
+                    $attr->product_id = $id;
+                    $attr->sku = $val;
+                    $attr->size = $data['size'][$key];
+                    $attr->price = $data['price'][$key];
+                    $attr->stock = $data['stock'][$key];
+                    $attr->save();
+                }
+            }
+            return redirect('admin/add-attribute/'.$id)->with('flash_message_success', 'Product Attributes has been added successfully');
+        }
+        $title = "Add Attribute";
+        return view('admin.products.add_attribute')->with(compact('title','productDetails','category_name'));
+    }
+
+    public function deleteAttribute($id = null){
+        ProductsAttribute::where(['id'=>$id])->delete();
+        return redirect()->back()->with('flash_message_success', 'Product Attribute has been deleted successfully');
     }
 }
