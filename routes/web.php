@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
 
 
 Route::match(['get', 'post'],'/admin','AdminController@login');
@@ -49,5 +49,7 @@ Route::group(['middleware' => ['auth']],function(){
 });
 
 Auth::routes();
+
+Route::get('/','IndexController@index');
 
 Route::get('/home', 'HomeController@index')->name('home');
