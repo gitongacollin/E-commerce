@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Home | Soko Soko</title>
+    <title>Home | Soko Freshy</title>
+    <link rel="icon" type="" href="{{ asset('images/frontend_images/home/favicon.png')}}">
     <link href="{{ asset ('css/frontend_css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{ asset ('css/frontend_css/font-awesome.min.css')}}" rel="stylesheet">
     <link href="{{ asset ('css/frontend_css/prettyPhoto.css')}}" rel="stylesheet">
@@ -13,6 +14,7 @@
     <link href="{{ asset ('css/frontend_css/animate.css')}}" rel="stylesheet">
 	<link href="{{ asset ('css/frontend_css/main.css')}}" rel="stylesheet">
 	<link href="{{ asset ('css/frontend_css/responsive.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('fonts/frontend_fonts/css/font-awesome.css') }}"  />
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Soko soko</title>
+<title>Soko Freshy</title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" type="" href="{{ asset('images/backend_images/favicon.png')}}">
 <link rel="stylesheet" href="{{ asset('css/backend_css/bootstrap.min.css') }}" />
 <link rel="stylesheet" href="{{ asset('css/backend_css/bootstrap-responsive.min.css') }}" />
 <link rel="stylesheet" href="{{ asset('css/backend_css/fullcalendar.css') }}" />
