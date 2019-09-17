@@ -30,3 +30,52 @@ $(document).ready(function () {
         });
     });
 });
+
+
+$().ready(function(){
+    //Validate Register form on keyup and submit
+    $("#registerForm").validate({
+        rules:{
+            name:{
+                required:true,
+                minlength:2,
+                accept: "[a-zA-Z]+"
+            },
+            password:{
+                required:true,
+                minlength:6
+            },
+            email:{
+                required:true,
+                email:true,
+                remote:"/check-email"
+            }
+        },
+        messages:{
+            name:{ 
+                required:"Please enter your Name",
+                minlength: "Your Name must be atleast 2 characters long",
+                accept: "Your Name must contain letters only"       
+            }, 
+            password:{
+                required:"Please provide your Password",
+                minlength: "Your Password must be atleast 6 characters long"
+            },
+            email:{
+                required: "Please enter your Email",
+                email: "Please enter valid Email",
+                remote: "Email already exists!"
+            }
+        }
+    });
+
+    //Password Strength Script
+
+    $('#password').passtrength({
+        minChars:6,
+        passwordToggle:true,
+        tooltip:true,
+        eyeImg: "/images/frontend_images/eye.svg"
+    });
+
+});

@@ -22,6 +22,17 @@ Route::match(['get', 'post'],'/admin','AdminController@login');
 
 Route::get('/logout', 'AdminController@logout');
 
+//Users Register/Login page
+Route::get('/login-register','UsersController@loginRegister');
+
+//users Register form submit
+Route::post('/user-register','UsersController@register');
+
+
+
+//check if user already exists
+Route::match(['GET','POST'],'/check-email','UsersController@checkEmail');
+
 Route::group(['middleware' => ['auth']],function(){
 	 Route::get('/admin/dashboard','AdminController@dashboard');
 	 Route::get('/admin/settings','AdminController@settings');
@@ -47,6 +58,8 @@ Route::group(['middleware' => ['auth']],function(){
 	 Route::get('/admin/delete-attribute/{id}','ProductsController@deleteAttribute');
 
 });
+
+
 
 Auth::routes();
 
