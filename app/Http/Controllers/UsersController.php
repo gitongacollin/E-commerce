@@ -77,7 +77,7 @@ class UsersController extends Controller
         if($userCount > 0){
             $userDetails = User::where('email',$email)->first();
             if($userDetails->markEmailAsVerified()){
-                return redirect('login-register')->with('flash_message_success','Your Email account is already activated. You can login now.');
+                return redirect('')->with('flash_message_error','Your Email account is already activated. You can login.');
             }else{
                 User::where('email',$email)->update(['email_verified_at'=>now()]);
 
@@ -87,7 +87,7 @@ class UsersController extends Controller
                     $message->to($email)->subject('Welcome to Soko Freshy Website');
                 });
 
-                return redirect('login-register')->with('flash_message_success','Your Email account is activated. You can login now.');
+                return redirect('')->with('flash_message_success','Your Email account is activated. You can login.');
             }
         }else{
             abort(404);
