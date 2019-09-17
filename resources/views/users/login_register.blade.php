@@ -4,28 +4,17 @@
 	<section id="form" style="margin-top: 0px;"><!--form-->
 		<div class="container">
 			<div class="row">
-				@if(Session::has('flash_message_error'))
-		            <div class="alert alert-danger alert-block">
-		                <button type="button" class="close" data-dismiss="alert">×</button> 
-		                <strong>{!! session('flash_message_error') !!}</strong>
-		            </div>
-		        @endif   
-		        @if(Session::has('flash_message_success'))
-		            <div class="alert alert-success alert-block">
-		                <button type="button" class="close" data-dismiss="alert">×</button> 
-		                <strong>{!! session('flash_message_success') !!}</strong>
-		            </div>
-		        @endif
 				<div class="col-sm-4 col-sm-offset-1">
 					<div class="login-form"><!--login form-->
 						<h2>Login to your account</h2>
-						<form action="#">
-							<input type="text" placeholder="Name" />
-							<input type="email" placeholder="Email Address" />
-							<span>
+						<form id="loginForm" name="loginForm" action="{{ url ('/user-login') }}" method="POST">
+							@csrf
+							<input name="email" type="email" placeholder="Email Address" />
+							<input name="password" type="password" placeholder="Password" />
+							<!--<span>
 								<input type="checkbox" class="checkbox"> 
 								Keep me signed in
-							</span>
+							</span>-->
 							<button type="submit" class="btn btn-default">Login</button>
 						</form>
 					</div><!--/login form-->

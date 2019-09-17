@@ -25,9 +25,18 @@ Route::get('/logout', 'AdminController@logout');
 //Users Register/Login page
 Route::get('/login-register','UsersController@loginRegister');
 
+//users login submit form
+Route::post('/user-login','UsersController@userLogin');
+
 //users Register form submit
 Route::post('/user-register','UsersController@register');
 
+// Confirm Account
+Route::get('confirm/{code}','UsersController@confirmAccount');
+
+
+//users logout
+Route::get('/userLogout', 'UsersController@userLogout');
 
 
 //check if user already exists

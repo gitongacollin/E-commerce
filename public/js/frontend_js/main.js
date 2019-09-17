@@ -32,6 +32,8 @@ $(document).ready(function () {
 });
 
 
+
+
 $().ready(function(){
     //Validate Register form on keyup and submit
     $("#registerForm").validate({
@@ -65,6 +67,28 @@ $().ready(function(){
                 required: "Please enter your Email",
                 email: "Please enter valid Email",
                 remote: "Email already exists!"
+            }
+        }
+    });
+
+    //Validate login form on keyup and submit
+    $("#loginForm").validate({
+        rules:{
+            password:{
+                required:true,
+            },
+            email:{
+                required:true,
+                email:true
+            }
+        },
+        messages:{ 
+            password:{
+                required:"Please provide your Password"
+            },
+            email:{
+                required: "Please enter your Email",
+                email:"Enter a valid Email"
             }
         }
     });

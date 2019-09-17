@@ -28,6 +28,19 @@
         <div class="header-middle"><!--header-middle-->
             <div class="container">
                 <div class="row">
+                    
+                    @if(Session::has('flash_message_error'))
+                        <div class="alert alert-danger alert-block">
+                            <button type="button" class="close" data-dismiss="alert">×</button> 
+                            <strong>{!! session('flash_message_error') !!}</strong>
+                        </div>
+                    @endif   
+                    @if(Session::has('flash_message_success'))
+                        <div class="alert alert-success alert-block">
+                            <button type="button" class="close" data-dismiss="alert">×</button> 
+                            <strong>{!! session('flash_message_success') !!}</strong>
+                        </div>
+                    @endif
                     <div class="col-md-4 clearfix">
                         <div class="logo pull-left">
                             <a href="{{ url ('/')}}"><img src="{{ asset('images/frontend_images/home/logo.png') }}" alt="" /></a>
@@ -59,11 +72,15 @@
                     <div class="col-md-8 clearfix">
                         <div class="shop-menu clearfix pull-right">
                             <ul class="nav navbar-nav">
-                                <li><a href=""><i class="fa fa-user"></i> Account</a></li>
                                 <li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
                                 <li><a href="#"><i class="fa fa-crosshairs"></i> Checkout</a></li>
                                 <li><a href="#"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-                                <li><a href="{{url ('/login-register') }}"><i class="fa fa-lock"></i> Login</a></li>
+                                @if(empty(Auth::check()))
+                                    <li><a href="{{url ('/login-register') }}"><i class="fa fa-lock"></i> Login</a></li>
+                                @else
+                                    <li><a href=""><i class="fa fa-user"></i> {{ auth()->user()->name }}</a></li>
+                                    <li><a href="{{ url ('/userLogout') }}"><i class="fa fa-sign-out"></i> Logout</a></li>
+                                @endif
                             </ul>
                         </div>
                     </div>
@@ -91,8 +108,14 @@
                                         <li><a href="#">Products</a></li>
                                         <li><a href="#">Product Details</a></li> 
                                         <li><a href="#">Checkout</a></li> 
-                                        <li><a href="#">Cart</a></li> 
-                                        <li><a href="#">Login</a></li> 
+                                        <li><a href="#">Cart</a></li>
+                                        @if(empty(Auth::check())) 
+                                            <li><a href="{{url ('/login-register') }}">Login</a></li>
+                                        @else
+                                            <li><a href=""></i> {{ auth()->user()->name }}</a></li>
+                                            <li><a href="{{ url ('/userLogout') }}"></i> Logout</a></li>
+                                        @endif
+
                                     </ul>
                                 </li> 
                                 <li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
