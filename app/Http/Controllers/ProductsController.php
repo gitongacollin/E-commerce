@@ -217,27 +217,34 @@ class ProductsController extends Controller
     }
 
     public function products($url=null){
-        //echo $url;die;
+        //show 404 page if category url does not exist
+
+        $countCategory = Category::where(['url'=>$url])->count();
+        if($countCategory==0){
+            abort(404);
+        }
 
         // Get All Categories and Sub Categories
         $categories = Category::with('categories')->where(['parent_id' => 0])->get();
 
-        $categoriesDetails  = Category::where(['url' => $url])->first();
-        //echo $categoriesDetails->id; die;
+        $categoriesDetails = Category::where(['url'=>$url])->first();
+
 
         if($categoriesDetails->parent_id==0){
-            //if url is main category url
+
             $subCategories = Category::where(['parent_id'=>$categoriesDetails->id])->get();
-            $cat_ids = "";
+
+            $subCategories = json_decode(json_encode($subCategories));
+
             foreach($subCategories as $subcat){
-                $cat_ids .=$subcat->id.",";
+
+                $cat_ids[] = $subcat->id;
             }
-            //echo $cat_ids;die;
-            $productsAll = Product::whereIn('category_id',array($cat_ids))->get();
+            $productsAll = Product::whereIn('category_id', $cat_ids)->get();
 
         }else{
-            //if url is sub category url
-            $productsAll = Product::where(['category_id' => $categoriesDetails->id]) -> get();
+            $productsAll = Product::where(['category_id'=>$categoriesDetails->id])->get(); 
+
         }
 
         return view('products.listing')->with(compact('categories','categoriesDetails', 'productsAll'));
