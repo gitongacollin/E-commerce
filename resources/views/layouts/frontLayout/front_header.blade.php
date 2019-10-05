@@ -22,8 +22,6 @@ $maincategories = Controller::maincategories();
                                 <li><a href="#"><i class="fa fa-facebook"></i></a></li>
                                 <li><a href="#"><i class="fa fa-twitter"></i></a></li>
                                 <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                                <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
                             </ul>
                         </div>
                     </div>
@@ -112,8 +110,9 @@ $maincategories = Controller::maincategories();
                                 <li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
                                         @foreach($maincategories as $cat)
+                                        @if($cat->status==1)
                                         <li><a href="{{asset ('products/'.$cat->url) }}">{{ $cat->name }}</a></li>
-
+                                        @endif
                                         @endforeach
 
                                     </ul>
