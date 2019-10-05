@@ -1,3 +1,9 @@
+<?php
+use App\Http\Controllers\Controller;
+$maincategories = Controller::maincategories();
+?>
+
+
 <header id="header"><!--header-->
         <div class="header_top"><!--header_top-->
             <div class="container">
@@ -105,26 +111,19 @@
                                 <li><a href="{{ url ('/')}}" class="active">Home</a></li>
                                 <li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a href="#">Products</a></li>
-                                        <li><a href="#">Product Details</a></li> 
-                                        <li><a href="#">Checkout</a></li> 
-                                        <li><a href="#">Cart</a></li>
-                                        @if(empty(Auth::check())) 
-                                            <li><a href="{{url ('/login-register') }}">Login</a></li>
-                                        @else
-                                            <li><a href=""></i> {{ auth()->user()->name }}</a></li>
-                                            <li><a href="{{ url ('/userLogout') }}"></i> Logout</a></li>
-                                        @endif
+                                        @foreach($maincategories as $cat)
+                                        <li><a href="{{asset ('products/'.$cat->url) }}">{{ $cat->name }}</a></li>
+
+                                        @endforeach
 
                                     </ul>
                                 </li> 
-                                <li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
+                                <!--<li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
                                         <li><a href="#">Blog List</a></li>
                                         <li><a href="#">Blog Single</a></li>
                                     </ul>
-                                </li> 
-                                <li><a href="#">404</a></li>
+                                </li> -->
                                 <li><a href="#">Contact</a></li>
                             </ul>
                         </div>

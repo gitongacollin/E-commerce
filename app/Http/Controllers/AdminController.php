@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Auth;
 use Session;
 use App\User;
+use App\Http\Controllers\Controller;
+use Spatie\Permission\Models\Role;
+use DB;
 use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller

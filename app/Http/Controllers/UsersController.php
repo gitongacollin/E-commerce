@@ -26,6 +26,7 @@ class UsersController extends Controller
                     return redirect()->back()->with('flash_message_error','Your account is not activated! Please confirm your email to activate.');    
                 }
                 Session::put('frontSession',$data['email']);
+                return redirect('/');
 
             
 

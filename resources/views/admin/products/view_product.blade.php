@@ -32,7 +32,6 @@
               <thead>
                 <tr>
                   <th>Product ID</th>
-                  <th>Category ID</th>
                   <th>Category Name</th>
                   <th>Product Name</th>
                   <th>Product Code</th>
@@ -46,7 +45,6 @@
               	@foreach($products as $product)
                 <tr class="gradeX">
                   <td>{{ $product->id}}</td>
-                  <td>{{ $product->category_id}}</td>
                   <td>{{ $product->category_name}}</td>
                   <td>{{ $product->product_name}}</td>
                   <td>{{ $product->product_code}}</td>
@@ -71,7 +69,6 @@
                   </div>
                   <div class="modal-body">
                     <p>Product ID: {{ $product->id }}</p>
-                    <p>Category ID: {{ $product->category_id }}</p>
                     <p>Product Code: {{ $product->product_code }}</p>
                     <p>Product Color: {{ $product->product_color }}</p>
                     <p>Price: {{ $product->price }}</p>

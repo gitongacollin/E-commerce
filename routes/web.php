@@ -42,7 +42,14 @@ Route::get('/userLogout', 'UsersController@userLogout');
 //check if user already exists
 Route::match(['GET','POST'],'/check-email','UsersController@checkEmail');
 
+//category/Listing Page
+Route::get('/products/{url}', 'ProductsController@products');
+
 Route::group(['middleware' => ['auth']],function(){
+	//ACL ROUTE MODULES
+	Route::resource('roles','RoleController');
+    Route::resource('users','UserController');
+
 	 Route::get('/admin/dashboard','AdminController@dashboard');
 	 Route::get('/admin/settings','AdminController@settings');
 	 Route::get('/admin/check-pwd', 'AdminController@chkPassword');
