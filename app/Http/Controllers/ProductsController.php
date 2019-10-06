@@ -148,25 +148,31 @@ class ProductsController extends Controller
 
     public function deleteProductImage($id=null){
         // Get Product Image
-        $productImage = Product::where('id',$id)->first(); 
+        $productImage = Product::where('id',$id)->first();
+
         // Get Product Image Paths
         $large_image_path = 'images/backend_images/products/large/';
         $medium_image_path = 'images/backend_images/products/medium/';
         $small_image_path = 'images/backend_images/products/small/';
+
         // Delete Large Image if not exists in Folder
         if(file_exists($large_image_path.$productImage->image)){
             unlink($large_image_path.$productImage->image);
         }
+
         // Delete Medium Image if not exists in Folder
         if(file_exists($medium_image_path.$productImage->image)){
             unlink($medium_image_path.$productImage->image);
         }
+
         // Delete Small Image if not exists in Folder
         if(file_exists($small_image_path.$productImage->image)){
             unlink($small_image_path.$productImage->image);
         }
+
         // Delete Image from Products table
         Product::where(['id'=>$id])->update(['image'=>'']);
+
         return redirect()->back()->with('flash_message_success', 'Product image has been deleted successfully');
     }
 
@@ -321,5 +327,35 @@ class ProductsController extends Controller
         $productsImage = ProductsImage::where(['product_id'=>$id])->get();
         $title = "Add Images";
         return view('admin.products.add_images')->with(compact('title','productsImage','productDetails'));
+    }
+
+    public function deleteAltImage($id=null){
+        // Get Product Image
+        $productImage = ProductsImage::where('id',$id)->first();
+
+        // Get Product Image Paths
+        $large_image_path = 'images/backend_images/products/large/';
+        $medium_image_path = 'images/backend_images/products/medium/';
+        $small_image_path = 'images/backend_images/products/small/';
+
+        // Delete Large Image if not exists in Folder
+        if(file_exists($large_image_path.$productImage->image)){
+            unlink($large_image_path.$productImage->image);
+        }
+
+        // Delete Medium Image if not exists in Folder
+        if(file_exists($medium_image_path.$productImage->image)){
+            unlink($medium_image_path.$productImage->image);
+        }
+
+        // Delete Small Image if not exists in Folder
+        if(file_exists($small_image_path.$productImage->image)){
+            unlink($small_image_path.$productImage->image);
+        }
+
+        // Delete Image from Products Images table
+        ProductsImage::where(['id'=>$id])->delete();
+
+        return redirect()->back()->with('flash_message_success', 'Alternative Product image(s) has been deleted successfully');
     }
 }

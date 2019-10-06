@@ -76,8 +76,8 @@
                   <tr>
                     <td>{{ $image->id }}</td>
                     <td>{{ $image->product_id }}</td>
-                    <td><img src="{{ asset('images/backend_images/products/small' .$image->image ) }}"></td>
-                    <td>Delete</td>
+                    <td><img src="{{ asset('images/backend_images/products/small/' .$image->image ) }}" style="width:60px;"></td>
+                    <td><a rel="{{ $image->id }}" rel1="delete-alt-image"  href="javascript:" class="btn btn-danger btn-mini deleteRecord" title = "Delete Alt Image">Delete</a></td>
                   </tr>
                   @endforeach
                   
