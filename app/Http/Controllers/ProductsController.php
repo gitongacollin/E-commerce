@@ -10,6 +10,7 @@ use App\Category;
 use App\Product;
 use Image;
 use App\ProductsAttribute;
+use App\ProductsImage;
 
 class ProductsController extends Controller
 {
@@ -197,13 +198,17 @@ class ProductsController extends Controller
             //echo "<pre>"; print_r($data); die;
             foreach($data['sku'] as $key => $val){
                 if(!empty($val)){
+
+                    //prevent duplicate SKU 
                     $attrCountSKU = ProductsAttribute::where(['sku'=>$val])->count();
                     if($attrCountSKU>0){
-                        return redirect('admin/add-attribute/'.$id)->with('flash_message_error', 'SKU already exists. Please add another SKU.');    
+                        return redirect('admin/add-attribute/'.$id)->with('flash_message_error', '"'.$data['sku'][$key]. '" SKU already exists. Please add another SKU.');    
                     }
+
+                    //prevent duplicate size
                     $attrCountSizes = ProductsAttribute::where(['product_id'=>$id,'size'=>$data['size'][$key]])->count();
                     if($attrCountSizes>0){
-                        return redirect('admin/add-attribute/'.$id)->with('flash_message_error', 'Attribute already exists. Please add another Attribute.');    
+                        return redirect('admin/add-attribute/'.$id)->with('flash_message_error', '"'.$data['size'][$key]. '" size already exists. Please add another size.');    
                     }
                     $attr = new ProductsAttribute;
                     $attr->product_id = $id;
@@ -280,5 +285,37 @@ class ProductsController extends Controller
         //echo $proArr[0]; echo $proArr[1];die;
         $proArr = ProductsAttribute::where(['product_id'=> $proArr[0], 'size' => $proArr[1]])-> first();
         echo $proArr->price;
+    }
+
+    public function addImages(Request $request, $id=null){
+        $productDetails = Product::with('attributes')->where(['id' => $id])->first();
+
+
+        if($request->isMethod('post')){
+            //add Images 
+            $data = $request->all();
+            //echo "<pre>"; print_r($data);die;
+            if($request->hasFile('image')){
+                $files = $request->file('image');
+                foreach($files as $file){
+                    //Upload image after file resize
+                    $image = new ProductsImage;
+                    $extension = $file->getClientOriginalExtension();
+                    $fileName = rand(111,99999).'.'.$extension;
+                    $large_image_path = 'images/backend_images/products/large/'.$fileName;
+                    $medium_image_path = 'images/backend_images/products/medium/'.$fileName;
+                    $small_image_path = 'images/backend_images/products/small/'.$fileName;
+                    Image::make($file)->save($large_image_path);
+                    Image::make($file)->resize(600,600)->save($medium_image_path);
+                    Image::make($file)->resize(300,300)->save($small_image_path);
+                    $image->image = $fileName;
+                    $image->product_id = $data['product_id'];
+                    $image->save();
+                }
+            }
+            return redirect('admin/add-images/'.$id)->with('flash_message_success', 'Image of the product has been added successfully');
+        }
+        $title = "Add Images";
+        return view('admin.products.add_images')->with(compact('title','productDetails'));
     }
 }

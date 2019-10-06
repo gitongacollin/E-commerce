@@ -41,10 +41,10 @@
                 <label class="control-label">Product Code</label>
                 <label class="control-label">{{ $productDetails->product_code }}</label>
               </div>
-              <div class="control-group">
+              <!--<div class="control-group">
                 <label class="control-label">Product Color</label>
                 <label class="control-label">{{ $productDetails->product_color }}</label>
-              </div>
+              </div>-->
               <div class="control-group">
                 <label class="control-label"></label>
                 <div class="controls field_wrapper">
