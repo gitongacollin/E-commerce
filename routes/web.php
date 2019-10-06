@@ -44,6 +44,8 @@ Route::match(['GET','POST'],'/check-email','UsersController@checkEmail');
 
 //category/Listing Page
 Route::get('/products/{url}', 'ProductsController@products');
+// Product Detail Page
+Route::get('/products/view/{id}','ProductsController@product');
 
 Route::group(['middleware' => ['auth']],function(){
 	//ACL ROUTE MODULES

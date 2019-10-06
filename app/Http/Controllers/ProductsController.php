@@ -166,8 +166,7 @@ class ProductsController extends Controller
         }
     }
 
-    public function viewProduct()
-    {
+    public function viewProduct(){
         $products = Product::get();
         $products = json_decode(json_encode($products));
         foreach ($products as $key => $val) {
@@ -248,5 +247,17 @@ class ProductsController extends Controller
         }
 
         return view('products.listing')->with(compact('categories','categoriesDetails', 'productsAll'));
+    }
+
+    public function product($id=null){
+
+         $productDetails = Product::where('id',$id)->first();
+
+         
+        // Get All Categories and Sub Categories
+        $categories = Category::with('categories')->where(['parent_id' => 0])->get();
+
+
+         return view('products.detail')->with(compact('productDetails','categories'));
     }
 }
