@@ -83,7 +83,7 @@
 										<div class="productinfo text-center">
 											<img src="{{ asset('images/backend_images/products/small/'.$product->image) }}" alt="" />
 											<h2>Ksh {{ $product->price }}</h2>
-											<p>{{ $product->product_name }}</p> '/products/{id}'
+											<p>{{ $product->product_name }}</p> 
 											<a href="{{ url('/products/view/'.$product->id) }}"  class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 										</div>
 										<div class="product-overlay">

@@ -47,6 +47,9 @@ Route::get('/products/{url}', 'ProductsController@products');
 // Product Detail Page
 Route::get('/products/view/{id}','ProductsController@product');
 
+//Get product Attribute price
+Route::get('/get-product-price','ProductsController@getProductPrice');
+
 Route::group(['middleware' => ['auth']],function(){
 	//ACL ROUTE MODULES
 	Route::resource('roles','RoleController');

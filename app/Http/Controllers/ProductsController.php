@@ -24,12 +24,22 @@ class ProductsController extends Controller
             $product = new Product;
             $product->category_id = $data['category_id'];
             $product->product_name = $data['product_name'];
-            $product->product_color = $data['product_color'];
+            if(!empty($data['product_color'])){
+                $product->product_color = $data['product_color'];
+            }else{
+                $product->product_color = '';
+            }
             $product->product_code = $data['product_code'];
             if(!empty($data['description'])){
                 $product->description = $data['description'];
             }else{
                 $product->description = '';
+            }
+
+            if(!empty($data['care'])){
+                $product->care = $data['care'];
+            }else{
+                $product->care = '';
             }
             
             $product->price = $data['price'];
@@ -103,7 +113,7 @@ class ProductsController extends Controller
                 $data['care'] = '';
             }
             Product::where(['id'=>$id])->update(['category_id'=>$data['category_id'],'product_name'=>$data['product_name'],
-                'product_code'=>$data['product_code'],'product_color'=>$data['product_color'],'description'=>$data['description'],'price'=>$data['price'],'image'=>$fileName]);
+                'product_code'=>$data['product_code'],'care'=>$data['care'],'description'=>$data['description'],'price'=>$data['price'],'image'=>$fileName]);
         
             return redirect('/admin/view-product')->with('flash_message_success', 'Product has been edited successfully');
         }
@@ -167,7 +177,7 @@ class ProductsController extends Controller
     }
 
     public function viewProduct(){
-        $products = Product::get();
+        $products = Product::orderBy('id','DESC')->get();
         $products = json_decode(json_encode($products));
         foreach ($products as $key => $val) {
             $category_name = Category::where(['id'=>$val->category_id])->first();
@@ -251,7 +261,9 @@ class ProductsController extends Controller
 
     public function product($id=null){
 
-         $productDetails = Product::where('id',$id)->first();
+         $productDetails = Product::with('attributes')->where('id',$id)->first();
+         $productDetails = json_decode(json_encode($productDetails));
+         //echo "<pre>"; print_r($productDetails); die;
 
          
         // Get All Categories and Sub Categories
@@ -259,5 +271,14 @@ class ProductsController extends Controller
 
 
          return view('products.detail')->with(compact('productDetails','categories'));
+    }
+
+    public function getProductPrice(Request $request){
+        $data = $request->all();
+        //echo "<pre>"; print_r($data); die;
+        $proArr = explode("-",$data['idSize']);
+        //echo $proArr[0]; echo $proArr[1];die;
+        $proArr = ProductsAttribute::where(['product_id'=> $proArr[0], 'size' => $proArr[1]])-> first();
+        echo $proArr->price;
     }
 }

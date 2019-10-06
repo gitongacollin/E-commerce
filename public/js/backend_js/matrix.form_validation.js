@@ -91,9 +91,6 @@ $(document).ready(function(){
 			product_code:{
 				required:true,
 			},
-			product_color:{
-				required:true,
-			},
 			price:{
 				required:true,
 				number:true,
@@ -123,9 +120,6 @@ $(document).ready(function(){
 				required:true,
 			},
 			product_code:{
-				required:true,
-			},
-			product_color:{
 				required:true,
 			},
 			price:{

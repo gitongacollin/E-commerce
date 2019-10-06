@@ -35,7 +35,6 @@
                   <th>Category Name</th>
                   <th>Product Name</th>
                   <th>Product Code</th>
-                  <th>Product Color</th>
                   <th>Price</th>
                   <th>Image</th>
                   <th>Actions</th>
@@ -48,7 +47,6 @@
                   <td>{{ $product->category_name}}</td>
                   <td>{{ $product->product_name}}</td>
                   <td>{{ $product->product_code}}</td>
-                  <td>{{ $product->product_color}}</td>
                   <td>{{ $product->price}}</td>
                   <td>
                     @if(!empty($product->image))
@@ -70,7 +68,6 @@
                   <div class="modal-body">
                     <p>Product ID: {{ $product->id }}</p>
                     <p>Product Code: {{ $product->product_code }}</p>
-                    <p>Product Color: {{ $product->product_color }}</p>
                     <p>Price: {{ $product->price }}</p>
                     <p>Description: {{ $product->description }}</p>
                   </div>
