@@ -72,6 +72,14 @@
                   </tr>
                 </thead>
                 <tbody>
+                  @foreach($productsImage as $image)
+                  <tr>
+                    <td>{{ $image->id }}</td>
+                    <td>{{ $image->product_id }}</td>
+                    <td><img src="{{ asset('images/backend_images/products/small' .$image->image ) }}"></td>
+                    <td>Delete</td>
+                  </tr>
+                  @endforeach
                   
                 </tbody>
               </table>

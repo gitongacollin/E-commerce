@@ -289,6 +289,7 @@ class ProductsController extends Controller
 
     public function addImages(Request $request, $id=null){
         $productDetails = Product::with('attributes')->where(['id' => $id])->first();
+        
 
 
         if($request->isMethod('post')){
@@ -313,9 +314,12 @@ class ProductsController extends Controller
                     $image->save();
                 }
             }
+
+
             return redirect('admin/add-images/'.$id)->with('flash_message_success', 'Image of the product has been added successfully');
         }
+        $productsImage = ProductsImage::where(['product_id'=>$id])->get();
         $title = "Add Images";
-        return view('admin.products.add_images')->with(compact('title','productDetails'));
+        return view('admin.products.add_images')->with(compact('title','productsImage','productDetails'));
     }
 }
