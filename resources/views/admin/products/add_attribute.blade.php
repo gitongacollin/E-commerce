@@ -71,7 +71,7 @@
             <h5>View Attributes</h5>
           </div>
           <div class="widget-content nopadding">
-            <form action="{{ url('admin/edit-attributes/'.$productDetails->id) }}" method="post">
+            <form action="{{ url('admin/edit-attribute/'.$productDetails->id) }}" method="post">
               @csrf
               <table class="table table-bordered data-table">
                 <thead>

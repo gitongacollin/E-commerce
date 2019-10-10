@@ -56,12 +56,14 @@
 									<span id="getprice">KSH {{ $productDetails->price}}</span>
 									<label>Quantity:</label>
 									<input type="text" value="3" />
-									<button type="button" class="btn btn-fefault cart">
-										<i class="fa fa-shopping-cart"></i>
-										Add to cart
-									</button>
+									@if($total_stock>0)
+										<button type="button" id="cartButton" class="btn btn-fefault cart">
+											<i class="fa fa-shopping-cart"></i>
+											Add to cart
+										</button>
+									@endif
 								</span>
-								<p><b>Availability:</b> In Stock</p>
+								<p><b>Availability:</b> <span id="availability">@if($total_stock>0) In Stock @else<b style="color: #FF0000">Out of Stock</b> @endif</p></span>
 								<a href=""><img src="images/product-details/share.png" class="share img-responsive"  alt="" /></a>
 							</div><!--/product-information-->
 						</div>

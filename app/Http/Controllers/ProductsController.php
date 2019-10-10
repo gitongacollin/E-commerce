@@ -236,6 +236,18 @@ class ProductsController extends Controller
         return redirect()->back()->with('flash_message_success', 'Product Attribute has been deleted successfully');
     }
 
+    public function editAttribute(Request $request,$id=null){
+        if($request->isMethod('post')){
+            $data = $request->all();
+            //echo "<pre>"; print_r($data);die;
+            foreach($data['idAttr'] as $key =>$attr){
+                ProductsAttribute::where(['id'=>$data['idAttr'][$key]])->update(['price'=>$data['price'][$key],'stock'=>$data['stock'][$key]]);
+            }
+            return redirect()->back()->with('flash_message_success','Products Attributes has been updates successfully');
+        }
+    }
+
+
     public function products($url=null){
         //show 404 page if category url does not exist
 
@@ -285,8 +297,10 @@ class ProductsController extends Controller
         //$productAltImages = json_decode(json_encode($productAltImages));
         //echo "<pre>"; print_r($productAltImages); die;
 
+        $total_stock= ProductsAttribute::where('product_id',$id)->sum('stock');
 
-         return view('products.detail')->with(compact('productDetails','categories','productAltImages'));
+
+         return view('products.detail')->with(compact('productDetails','categories','productAltImages','total_stock'));
     }
 
     public function getProductPrice(Request $request){
@@ -296,6 +310,8 @@ class ProductsController extends Controller
         //echo $proArr[0]; echo $proArr[1];die;
         $proArr = ProductsAttribute::where(['product_id'=> $proArr[0], 'size' => $proArr[1]])-> first();
         echo $proArr->price;
+        echo "#";
+        echo $proArr->stock;
     }
 
     public function addImages(Request $request, $id=null){

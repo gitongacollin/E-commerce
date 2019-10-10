@@ -33,7 +33,7 @@ $(document).ready(function () {
 
 $(document).ready(function (){
 
-    //Change Price with size
+    //Change Price & Stock with size
     $("#selSize").change(function(){
         var idSize = $(this).val();
         if(idSize == ""){
@@ -44,8 +44,16 @@ $(document).ready(function (){
             url:'/get-product-price',
             data:{idSize:idSize},
             success:function(resp){
-                //alert(resp);
-                $("#getprice").html("KSH "+resp);
+                //alert(resp); return false;
+                var arr = resp.split('#');
+                $("#getprice").html("KSH "+arr[0]);
+                if(arr[1] ==0){
+                    $("#cartButton").hide();
+                    $("#availability").text("Out of Stock");
+                }else{
+                    $("#cartButton").show();
+                    $("#availability").text("In Stock");
+                }
             },error:function(){
                 alert("Error");
             }
