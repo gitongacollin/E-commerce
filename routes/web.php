@@ -50,6 +50,12 @@ Route::get('/products/view/{id}','ProductsController@product');
 //Get product Attribute price
 Route::get('/get-product-price','ProductsController@getProductPrice');
 
+//Add to cart Route
+Route::match(['get','post'],'/add-to-cart', 'ProductsController@addtocart');
+
+//Cart page route
+Route::match(['get', 'post'], '/cart', 'ProductsController@cart');
+
 Route::group(['middleware' => ['auth']],function(){
 	//ACL ROUTE MODULES
 	Route::resource('roles','RoleController');
@@ -75,6 +81,7 @@ Route::group(['middleware' => ['auth']],function(){
 	 Route::get('/admin/delete-product-image/{id}','ProductsController@deleteProductImage');
 	 Route::get('/admin/delete-alt-image/{id}','ProductsController@deleteAltImage');
 
+
 	 //Products attributes Routes
 	 Route::match(['get','post'],'/admin/add-attribute/{id}','ProductsController@addAttribute');
 	 Route::match(['get','post'],'/admin/edit-attribute/{id}','ProductsController@editAttribute');
@@ -90,4 +97,4 @@ Auth::routes();
 
 Route::get('/','IndexController@index');
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/kwe', 'HomeController@index')->name('home');

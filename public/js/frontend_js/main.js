@@ -47,6 +47,7 @@ $(document).ready(function (){
                 //alert(resp); return false;
                 var arr = resp.split('#');
                 $("#getprice").html("KSH "+arr[0]);
+                $("#price").val(arr[0]);
                 if(arr[1] ==0){
                     $("#cartButton").hide();
                     $("#availability").text("Out of Stock");

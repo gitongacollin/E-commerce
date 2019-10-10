@@ -11,6 +11,7 @@ use App\Product;
 use Image;
 use App\ProductsAttribute;
 use App\ProductsImage;
+use DB;
 
 class ProductsController extends Controller
 {
@@ -404,5 +405,28 @@ class ProductsController extends Controller
         ProductsImage::where(['id'=>$id])->delete();
 
         return redirect()->back()->with('flash_message_success', 'Alternative Product image(s) has been deleted successfully');
+    }
+
+    public function cart(){
+        return view('products.cart');
+    }
+
+    public function addtocart(Request $request){
+        $data = $request->all();
+        // echo "<pre>"; print_r($data); die;
+
+        if(empty($data['user_email'])){
+            $data['user_email']='';
+        }
+
+        if(empty($data['session_id'])){
+            $data['session_id']='';
+        }
+
+        $sizeArr = explode("-",$data['size']);
+
+        DB::table('cart')->insert(['product_id'=>$data['product_id'],'product_name'=>$data['product_name'],'product_code'=>$data['product_code'],'price'=>$data['price'],'size'=>$sizeArr[1],'quantity'=>$data['quantity'],'user_email'=>$data['user_email'],'session_id'=>$data['session_id']]);
+
+        return redirect('cart')->with('flash_message_success','Product has been added to cart');
     }
 }
