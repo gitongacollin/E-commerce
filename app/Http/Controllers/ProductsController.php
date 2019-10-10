@@ -408,24 +408,31 @@ class ProductsController extends Controller
     }
 
     public function cart(){
-        return view('products.cart');
+
+        $session_id = Session::get('session_id');
+        $userCart = DB::table('cart')->where(['session_id' => $session_id])->get();  
+        // echo "<pre>"; print_r($userCart); die;
+
+        return view('products.cart')->with(compact('userCart'));
     }
 
     public function addtocart(Request $request){
         $data = $request->all();
         // echo "<pre>"; print_r($data); die;
 
-        if(empty($data['user_email'])){
+        if(!isset($data['user_email'])){
             $data['user_email']='';
         }
 
-        if(empty($data['session_id'])){
-            $data['session_id']='';
+        $session_id = Session::get('session_id');
+        if(!isset($session_id)){
+            $session_id = str_random(40);
+            Session::put('session_id',$session_id);
         }
 
         $sizeArr = explode("-",$data['size']);
 
-        DB::table('cart')->insert(['product_id'=>$data['product_id'],'product_name'=>$data['product_name'],'product_code'=>$data['product_code'],'price'=>$data['price'],'size'=>$sizeArr[1],'quantity'=>$data['quantity'],'user_email'=>$data['user_email'],'session_id'=>$data['session_id']]);
+        DB::table('cart')->insert(['product_id'=>$data['product_id'],'product_name'=>$data['product_name'],'product_code'=>$data['product_code'],'price'=>$data['price'],'size'=>$sizeArr[1],'quantity'=>$data['quantity'],'user_email'=>$data['user_email'],'session_id'=>$session_id]);
 
         return redirect('cart')->with('flash_message_success','Product has been added to cart');
     }
