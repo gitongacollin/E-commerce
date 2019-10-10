@@ -61,6 +61,13 @@ class ProductsController extends Controller
                     $product->image = $filename;
                 }
             }
+
+            if(empty($data['status'])){
+                $status = 0;
+            }else{
+                $status = 1;
+            }
+            $product->status = $status;
             $product->save();
             //return redirect()->back()->with('flash_message_success','Product has been added Successfully!');
             return redirect('/admin/view-product')->with('flash_message_success','Product has been added Successfully!');
@@ -83,11 +90,11 @@ class ProductsController extends Controller
         if($request->isMethod('post')){
             $data = $request->all();
             //echo "<pre>"; print_r($data); die;
-            /*if(empty($data['status'])){
+            if(empty($data['status'])){
                 $status='0';
             }else{
                 $status='1';
-            }*/
+            }
             // Upload Image
             if($request->hasFile('image')){
                 $image_tmp = Input::file('image');
@@ -114,7 +121,7 @@ class ProductsController extends Controller
                 $data['care'] = '';
             }
             Product::where(['id'=>$id])->update(['category_id'=>$data['category_id'],'product_name'=>$data['product_name'],
-                'product_code'=>$data['product_code'],'care'=>$data['care'],'description'=>$data['description'],'price'=>$data['price'],'image'=>$fileName]);
+                'product_code'=>$data['product_code'],'care'=>$data['care'],'description'=>$data['description'],'price'=>$data['price'],'image'=>$fileName, 'status'=>$status]);
         
             return redirect('/admin/view-product')->with('flash_message_success', 'Product has been edited successfully');
         }
@@ -272,10 +279,10 @@ class ProductsController extends Controller
 
                 $cat_ids[] = $subcat->id;
             }
-            $productsAll = Product::whereIn('category_id', $cat_ids)->get();
+            $productsAll = Product::whereIn('category_id', $cat_ids)->where('status',1)->get();
 
         }else{
-            $productsAll = Product::where(['category_id'=>$categoriesDetails->id])->get(); 
+            $productsAll = Product::where(['category_id'=>$categoriesDetails->id])->where('status',1)->get(); 
 
         }
 
@@ -283,6 +290,13 @@ class ProductsController extends Controller
     }
 
     public function product($id=null){
+
+        //show 404 page if product status is 0
+
+        $productCount = Product::where(['id'=>$id, 'status'=>1])->count();
+        if($productCount==0){
+            abort(404);
+        }
 
          $productDetails = Product::with('attributes')->where('id',$id)->first();
          $productDetails = json_decode(json_encode($productDetails));
@@ -299,8 +313,20 @@ class ProductsController extends Controller
 
         $total_stock= ProductsAttribute::where('product_id',$id)->sum('stock');
 
+        $relatedProducts = Product::where('id','!=',$id)->where(['category_id'=>$productDetails->category_id])->get();
+        /*$relatedProducts = json_decode(json_encode($relatedProducts));
+        echo "<pre>";print_r($relatedProducts);die;*/
 
-         return view('products.detail')->with(compact('productDetails','categories','productAltImages','total_stock'));
+        // foreach ($relatedProducts->chunk(3) as $chunk) {
+        //     foreach($chunk as $item){
+        //         echo $item; echo "<br>";
+        //     }
+        //     echo "<br><br><br>";
+        // }
+        // die;
+
+
+         return view('products.detail')->with(compact('productDetails','categories','productAltImages','total_stock','relatedProducts'));
     }
 
     public function getProductPrice(Request $request){
