@@ -56,6 +56,9 @@ Route::match(['get','post'],'/add-to-cart', 'ProductsController@addtocart');
 //Cart page route
 Route::match(['get', 'post'], '/cart', 'ProductsController@cart');
 
+//Delete Product from cart page
+Route::get('/cart/delete-product/{id}','ProductsController@deleteCartProduct');
+
 Route::group(['middleware' => ['auth']],function(){
 	//ACL ROUTE MODULES
 	Route::resource('roles','RoleController');
