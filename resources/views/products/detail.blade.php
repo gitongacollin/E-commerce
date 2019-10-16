@@ -61,7 +61,7 @@
 									<span>
 										<span id="getprice">KSH {{ $productDetails->price}}</span>
 										<label>Quantity:</label>
-										<input type="text" name="quantity" value="3" />
+										<input type="text" name="quantity" value="1" />
 										@if($total_stock>0)
 											<button type="submit" id="cartButton" class="btn btn-fefault cart">
 												<i class="fa fa-shopping-cart"></i>

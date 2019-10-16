@@ -78,7 +78,7 @@ $maincategories = Controller::maincategories();
                             <ul class="nav navbar-nav">
                                 <li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
                                 <li><a href="#"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+                                <li><a href="{{url('/cart')}}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
                                 @if(empty(Auth::check()))
                                     <li><a href="{{url ('/login-register') }}"><i class="fa fa-lock"></i> Login</a></li>
                                 @else
