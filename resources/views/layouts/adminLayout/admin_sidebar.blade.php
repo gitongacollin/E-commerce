@@ -14,6 +14,12 @@
         <li><a href="{{ url('/admin/view-product')}}">View Product  </a></li>
       </ul>
     </li>
+    <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Coupon</span> <span class="label label-important">0</span></a>
+      <ul>
+        <li><a href="{{ url('/admin/add-coupon')}}">Add Coupon</a></li>
+        <li><a href="{{ url('/admin/view-coupon')}}">View Coupon</a></li>
+      </ul>
+    </li>
     <li><a class="submenu" href="{{ url('/admin/users') }}"> <i class="icon icon-th-list"></i> <span>Manage Users</span> <span class="label label-important">0</span></a></li>
     <li><a class="submenu" href="{{ url('/admin/role') }}"> <i class="icon icon-th-list"></i> <span>Manage Roles</span> <span class="label label-important">0</span></a>
     <li> <a href="#"><i class="icon icon-inbox"></i> <span>Invoice</span></a> </li>
