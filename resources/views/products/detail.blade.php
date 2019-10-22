@@ -80,7 +80,6 @@
 						<div class="col-sm-12">
 							<ul class="nav nav-tabs">
 								<li class="active"><a href="#description" data-toggle="tab">Description</a></li>
-								<li><a href="#care" data-toggle="tab">Material & Care</a></li>
 								<li><a href="#delivery" data-toggle="tab">Delivery options</a></li>
 							</ul>
 						</div>
@@ -91,11 +90,6 @@
 								</div>
 							</div>
 							
-							<div class="tab-pane fade " id="care" >
-								<div class="col-sm-12">
-									<p>{{ $productDetails->care}}</p>
-								</div>
-							</div>
 							
 							<div class="tab-pane fade " id="delivery" >
 								<div class="col-sm-12">

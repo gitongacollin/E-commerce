@@ -90,10 +90,10 @@
 				<div class="col-sm-6">
 					<div class="total_area">
 						<ul>
-							@if(!empty(Session::get('CouponAmount')))
+							@if(!empty(Session::get('couponAmount')))
 								<li>Sub Total <span>KSH <?php echo $total_amount; ?></span></li>
-								<li>Discount <span>KSH <?php echo Session::get('CouponAmount'); ?></span></li>
-								<li>Grand Total <span>KSH <?php echo $total_amount - Session::get('CouponAmount'); ?></span></li>
+								<li>Discount <span>KSH <?php echo Session::get('couponAmount'); ?></span></li>
+								<li>Grand Total <span>KSH <?php echo $total_amount - Session::get('couponAmount') ; ?></span></li>
 							@else
 								<li>Grand Total <span>KSH <?php echo $total_amount; ?></span></li>
 							@endif

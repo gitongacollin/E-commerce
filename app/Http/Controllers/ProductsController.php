@@ -471,6 +471,9 @@ class ProductsController extends Controller
     }
 
     public function applyCoupon(Request $request){
+
+       Session::forget('couponAmount');
+       Session::forget('couponCode');
         $data =$request->all();
         // echo "<pre>";print_r($data);die;
         $couponCount = Coupon::where('coupon_code',$data['coupon_code'])->count();
