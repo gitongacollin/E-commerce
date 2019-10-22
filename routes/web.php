@@ -65,7 +65,7 @@ Route::get('/cart/update-quantity/{id}/{quantity}','ProductsController@updateCar
 //Coupon code on cart page
 Route::post('/cart/apply-coupon','ProductsController@applyCoupon');
 
-Route::group(['middleware' => ['auth']],function(){
+Route::group(['middleware' => ['adminlogin']],function(){
 	//ACL ROUTE MODULES
 	Route::resource('roles','RoleController');
     Route::resource('users','UserController');

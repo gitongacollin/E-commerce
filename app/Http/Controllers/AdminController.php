@@ -10,15 +10,17 @@ use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;
 use DB;
 use Illuminate\Support\Facades\Hash;
+use App\Admin;
 
 class AdminController extends Controller
 {
     public function login(Request $request){
     	if($request->isMethod('post')){
     		$data = $request->input();
-    		if(Auth::attempt(['email'=>$data['email'],'password'=>$data['password'],'admin'=>'1'])){
+            echo $adminCount = Admin::where(['username' => $data['username'],'password'=>md5($data['password']),'status'=>1])->count(); 
+            if($adminCount > 0){
     			//echo "Success"; die;
-                /*Session::put('adminSession',$data['email']);*/
+                Session::put('adminSession',$data['username']);
                 return redirect('/admin/dashboard');
     		}else{
     			//echo "Failed"; die;
