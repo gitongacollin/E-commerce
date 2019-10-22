@@ -96,6 +96,7 @@ Route::group(['middleware' => ['auth']],function(){
 
 	 //Coupons Routes
 	 Route::match(['get','post'], '/admin/add-coupon', 'CouponsController@addCoupon');
+	 Route::get('/admin/view-coupon','CouponsController@ViewCoupon');
 
 
 });
