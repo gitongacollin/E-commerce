@@ -17,15 +17,42 @@ class CouponsController extends Controller
 			$coupon->amount_type = $data['amount_type'];	
 			$coupon->amount = $data['amount'];
 			$coupon->expiry_date = $data['expiry_date'];
+			if(empty($data['status'])){
+				$data['status'] = 0;
+			}
 			$coupon->status = $data['status'];
 			$coupon->save();	
-			return redirect('/admin/view-coupon')->with('flash_message_success', 'Coupon has been added successfully');
+			return redirect('/admin/view-coupon')->with('flash_message_success', 'Coupon has been updated successfully');
 		}
 		return view('admin.coupons.add_coupon');
 	}
 
-	Public function ViewCoupon(){
+	Public function viewCoupon(){
 		$coupons = Coupon::orderBy('id','DESC')->get();
 		return view('admin.coupons.view_coupon')->with(compact('coupons'));
+	}
+	Public function editCoupon(Request $request, $id = null){
+		if($request->isMethod('post')){
+			$data = $request->all();
+			$coupon = Coupon::find($id);
+			$coupon->coupon_code = $data['coupon_code'];	
+			$coupon->amount_type = $data['amount_type'];	
+			$coupon->amount = $data['amount'];
+			$coupon->expiry_date = $data['expiry_date'];
+			if(empty($data['status'])){
+				$data['status'] = 0;
+			}
+			$coupon->status = $data['status'];
+			$coupon->save();	
+			return redirect('/admin/view-coupon')->with('flash_message_success', 'Coupon has been added successfully');	
+		}
+		$couponDetails = Coupon::find($id);
+		// $couponDetails = json_decode(json_encode($couponDetails));
+		// echo "<pre>"; print_r($couponDetails);die;
+		return view('admin.coupons.edit_coupon')->with(compact('couponDetails'));
+	}
+	Public function deleteCoupon($id){
+		Coupon::where(['id'=>$id])->delete();
+		return redirect()->back()->with('flash_message_success','Coupon has been deleted successfully');
 	}
 }

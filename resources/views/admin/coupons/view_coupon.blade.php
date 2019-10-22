@@ -57,8 +57,8 @@
                   <td class="center">{{ $coupon->expiry_date }}</td>
                   <td class="center">@if($coupon->status==1) Active @else Inactive @endif</td>
                   <td class="center"> 
-                    <a href="#" class="btn btn-primary btn-mini">Edit</a> 
-                    <a id="delCoupon" rel="{{ $coupon->id }}" rel1="delete-coupon" href="javascript:" class="btn btn-danger btn-mini deleteRecord">Delete</a>
+                    <a href="{{ url('admin/edit-coupon/'. $coupon->id) }}" class="btn btn-primary btn-mini">Edit</a> 
+                    <a rel="{{ $coupon->id }}" rel1="delete-coupon" <?php /*href="{{ url('/admin/delete-prroduct/' .$product->id)}}" */?> href="javascript:" class="btn btn-danger btn-mini deleteRecord" title = "Delete Coupon">Delete</a>
                   </td>
                 </tr>
                 @endforeach

@@ -62,6 +62,9 @@ Route::get('/cart/delete-product/{id}','ProductsController@deleteCartProduct');
 //Update quantity on cart page
 Route::get('/cart/update-quantity/{id}/{quantity}','ProductsController@updateCartQuantity');
 
+//Coupon code on cart page
+Route::post('/cart/apply-coupon','ProductsController@applyCoupon');
+
 Route::group(['middleware' => ['auth']],function(){
 	//ACL ROUTE MODULES
 	Route::resource('roles','RoleController');
@@ -96,7 +99,9 @@ Route::group(['middleware' => ['auth']],function(){
 
 	 //Coupons Routes
 	 Route::match(['get','post'], '/admin/add-coupon', 'CouponsController@addCoupon');
-	 Route::get('/admin/view-coupon','CouponsController@ViewCoupon');
+	 Route::get('/admin/view-coupon','CouponsController@viewCoupon');
+	 Route::match(['get','post'],'/admin/edit-coupon/{id}', 'CouponsController@editCoupon');
+	 Route::get('/admin/delete-coupon/{id}','CouponsController@deleteCoupon');
 
 
 });

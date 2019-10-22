@@ -210,22 +210,29 @@ $(document).ready(function(){
 		return false;
 	});*/
 
-	$(".deleteRecord").click(function(){
-		var id = $(this).attr('rel');
-		var deleteFunction = $(this).attr('rel1');
-		swal({
-			title: "Are You sure?",
-			text: "You will not be able to reverse this action!",
-			type: "warning",
-			showCancelButton: true,
-			confirmButtonColor: '#3085d6',
-			cancelButtonColor: '#d33',
-			confirmButtonText: "Yes, delete it!"
-		},
-		function(){
-			window.location.href="/admin/"+deleteFunction+"/"+id;
-		});
-	});
+	
+
+	$(document).on('click','.deleteRecord',function(e){
+        var id = $(this).attr('rel');
+        var deleteFunction = $(this).attr('rel1');
+        swal({
+          title: "Are you sure?",
+          text: "Your will not be able to recover this Record Again!",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonClass: "btn btn-success",
+          confirmButtonText: "Yes, delete it!",
+          cancelButtonText: 'No, Cancel',
+          cancelButtonClass: 'btn btn-danger',
+          buttonsStyling:false,
+          reverseButtons: true
+        },
+        function(){
+            window.location.href="/admin/"+deleteFunction+"/"+id;
+        });
+    });
 
 	$(document).ready(function(){
     var maxField = 10; //Input fields increment limitation
