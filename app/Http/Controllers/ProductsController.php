@@ -423,6 +423,10 @@ class ProductsController extends Controller
     }
 
     public function addtocart(Request $request){
+
+        Session::forget('couponAmount');
+        Session::forget('couponCode');
+
         $data = $request->all();
         // echo "<pre>"; print_r($data); die;
 
@@ -452,12 +456,20 @@ class ProductsController extends Controller
     }
 
     public function deleteCartProduct($id = null){
+
+        Session::forget('couponAmount');
+        Session::forget('couponCode');
+        
         // echo $id; die;
         DB::table('cart')->where('id', $id)->delete();
         return redirect('cart')->with('flash_message_success', 'Product has been successfully removed from cart');
     }
 
     public function updateCartQuantity($id=null,$quantity=null){
+
+        Session::forget('couponAmount');
+        Session::forget('couponCode');
+
         $getCartDetails = DB::table('cart')->where('id',$id)->first();
         $getAttributeStock = ProductsAttribute::where('sku',$getCartDetails->product_code)->first();
         // echo $getAttributeStock->stock; echo "--";
