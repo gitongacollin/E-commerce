@@ -9,13 +9,8 @@
 			  <li class="active">Check Out</li>
 			</ol>
 		</div>
-		@if(Session::has('flash_message_error'))
-            <div class="alert alert-error alert-block" style="background-color:#f4d2d2">
-                <button type="button" class="close" data-dismiss="alert">×</button> 
-                    <strong>{!! session('flash_message_error') !!}</strong>
-            </div>
-		@endif
-		<form action="{{ url('/checkout') }}" method="post">{{ csrf_field() }}
+		<form action="{{ url('/checkout') }}" method="post">
+			@csrf
 			<div class="row">
 				<div class="col-sm-4 col-sm-offset-1">
 					<div class="login-form"><!--login form-->

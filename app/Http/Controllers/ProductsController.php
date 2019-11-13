@@ -446,10 +446,9 @@ class ProductsController extends Controller
             $data = $request->all();
             /*echo "<pre>"; print_r($data); die;*/
             // Return to Checkout page if any of the field is empty
-            /*if(empty($data['billing_name']) || empty($data['billing_address']) || empty($data['billing_county']) || empty($data['billing_region']) ||  empty($data['billing_phone']) || empty($data['shipping_name']) || empty($data['shipping_address']) || empty($data['shipping_county']) || empty($data['shipping_region']) empty($data['shipping_phone'])){
+            if(empty($data['billing_name']) || empty($data['billing_address']) || empty($data['billing_county']) || empty($data['billing_region']) || empty($data['billing_phone']) || empty($data['shipping_name']) || empty($data['shipping_address']) || empty($data['shipping_county']) || empty($data['shipping_region']) || empty($data['shipping_phone']) ){
                     return redirect()->back()->with('flash_message_error','Please fill all fields to Checkout!');
             }
-*/
             // Update User details
             User::where('id',$user_id)->update(['name'=>$data['billing_name'],'address'=>$data['billing_address'],'county'=>$data['billing_county'],'region'=>$data['billing_region'],'phone'=>$data['billing_phone']]);
 
@@ -474,10 +473,12 @@ class ProductsController extends Controller
                 return redirect()->back()->with('flash_message_error','Your location is not available for delivery. Please enter another location.');
             }*/
 
-            return redirect()->action('ProductsController@orderReview');
+            echo "Redirect to order Review Page"; die;
+
+            //return redirect()->action('ProductsController@orderReview');
         }
 
-        $meta_title = "Checkout - E-com Website";
+        $meta_title = "Checkout - Soko Freshy";
         return view('products.checkout')->with(compact('userDetails','counties','shippingDetails','meta_title'));
     }
 
