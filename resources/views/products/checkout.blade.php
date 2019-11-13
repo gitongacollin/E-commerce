@@ -33,7 +33,7 @@
 								<input name="billing_region" id="billing_region" @if(!empty($userDetails->region)) value="{{ $userDetails->region }}" @endif type="text" placeholder="Billing Region" class="form-control" />
 							</div>
 							<div class="form-group">
-								<select id="billing_country" name="billing_country" class="form-control">
+								<select id="billing_county" name="billing_county" class="form-control">
 									<option value="">Select County</option>
 									@foreach($counties as $county)
 										<option value="{{ $county->county_name }}" @if(!empty($userDetails->county) && $county->county_name == $userDetails->county) selected @endif>{{ $county->county_name }}</option>

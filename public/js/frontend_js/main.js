@@ -224,6 +224,23 @@ $().ready(function(){
         }
     });
 
+    // Copy Billing Address to Shipping Address Script
+    $("#copyAddress").click(function(){
+        if(this.checked){
+            $("#shipping_name").val($("#billing_name").val());
+            $("#shipping_address").val($("#billing_address").val());
+            $("#shipping_county").val($("#billing_county").val());
+            $("#shipping_region").val($("#billing_region").val());
+            $("#shipping_phone").val($("#billing_phone").val());
+        }else{
+            $("#shipping_name").val('');
+            $("#shipping_address").val('');
+            $("#shipping_county").val('');
+            $("#shipping_region").val('');
+            $("#shipping_phone").val('');
+        }
+    });
+
 });
 
 // Instantiate EasyZoom instances
