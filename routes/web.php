@@ -65,6 +65,15 @@ Route::get('/cart/update-quantity/{id}/{quantity}','ProductsController@updateCar
 //Coupon code on cart page
 Route::post('/cart/apply-coupon','ProductsController@applyCoupon');
 
+//Prevent all routes after login
+Route::group(['middleware'=>['frontLogin']],function(){
+//Users Account Page
+Route::match(['get','post'],'/account','UsersController@account');
+Route::post('/check-user-pass','UsersController@chkUserPassword');
+Route::post('/update-user-pass','UsersController@updatePassword');
+
+});
+
 Route::group(['middleware' => ['adminlogin']],function(){
 	//ACL ROUTE MODULES
 	Route::resource('roles','RoleController');

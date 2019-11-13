@@ -5,8 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Auth;
+use DB;
 use Session;
+use App\County;
+use App\SubCounty;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
@@ -105,6 +109,84 @@ class UsersController extends Controller
 			echo "true"; die;
 		}		
     }
+
+
+    public function account(Request $request){
+       $user_id = Auth::user()->id;
+       $userDetails = User::find($user_id);
+       $counties = County::get();
+       $sub_counties = SubCounty::get();
+        
+
+        if($request->isMethod('post')){
+            $data = $request->all();
+
+            if(empty($data['name'])){
+                return redirect()->back()->with('flash_message_error','Please enter your Name to update your account details!');    
+            }
+            if(empty($data['email'])){
+                $data['email'] = '';    
+            }
+
+            if(empty($data['address'])){
+                $data['address'] = '';    
+            }
+
+            if(empty($data['county'])){
+                $data['county'] = '';    
+            }
+
+            if(empty($data['region'])){
+                $data['region'] = '';    
+            }
+            if(empty($data['phone'])){
+                $data['phone'] = '';    
+            }
+
+            $user = User::find($user_id);
+            $user->name = $data['name'];
+            $user->name = $data['email'];
+            $user->address = $data['address'];
+            $user->region = $data['region'];
+            $user->county = $data['county'];
+            $user->phone = $data['phone'];
+            $user->save();
+            return redirect()->back()->with('flash_message_success','Details have been updated successfully.');
+        }
+        
+        return view('users.account')->with(compact('counties','sub_counties','userDetails'));
+    }
+
+    public function chkUserPassword(Request $request){
+        $data = $request->all();
+        /*echo"<pre>";print_r($data);die;*/
+        $current_password =$data['current_pass'];
+        $user_id = Auth::User()->id;
+        $check_password = User::where('id',$user_id)->first();
+        if(Hash::check($current_password,$check_password->password)){
+            echo "true";die;
+        }else{
+            echo "false";die;
+        }
+    }
+
+    public function updatePassword(Request $request){
+        if($request->isMethod('post')){
+            $data = $request->all();
+            /*echo "<pre>";print_r($data);die;*/
+            $old_pass = User::where('id',Auth::User()->id)->first();
+            $current_pass = $data['current_pass'];
+            if(Hash::check($current_pass,$old_pass->password)){
+                //Update password
+                $new_pass= bcrypt($data['new_pass']);
+                User::where('id',Auth::User()->id)->update(['password'=>$new_pass]);
+                return redirect()->back()->with('flash_message_success',' Password updated successfully!');
+            }else{
+                return redirect()->back()->with('flash_message_error','Current password is incorrect');
+            }
+        }
+    }
+    
 
     public function userLogout(){
         //Session::flush();

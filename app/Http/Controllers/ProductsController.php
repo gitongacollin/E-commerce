@@ -76,7 +76,7 @@ class ProductsController extends Controller
         }
 
     	$categories = Category::where(['parent_id'=>0])->get();
-        $categories_dropdown = "<option value='' selected disabled>Select</option>";
+        $categories_dropdown = "<option value='Select' selected disabled>Select</option>";
     	foreach($categories as $cat){
             $categories_dropdown .= "<option value='".$cat->id."'>".$cat->name."</option>";
             $sub_categories = Category::where(['parent_id'=>$cat->id])->get();

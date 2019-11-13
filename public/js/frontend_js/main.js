@@ -138,6 +138,92 @@ $().ready(function(){
         eyeImg: "/images/frontend_images/eye.svg"
     });
 
+    //Account Form
+    $('#accountForm').validate({
+        rules:{
+            name:{
+                required:true,
+                minlength:2,
+                accept: "[a-zA-Z]+"
+            },
+            address:{
+                required:true,
+                minlength:10
+            },
+            county:{
+                required:true,
+            },
+            region:{
+                required:true,
+            }
+
+        },
+        messages:{
+            name:{ 
+                required:"Please enter your Name",
+                minlength: "Your Name must be atleast 2 characters long",
+                accept: "Your Name must contain letters only"       
+            }, 
+            address:{
+                required:"Please provide your Address",
+                minlength: "Your Address must be atleast 10 characters long"
+            },
+            county:{
+                required: "Please enter your County",
+            }
+        }
+    });
+    $('#current_pass').keyup(function(){
+        var current_pass = $(this).val();
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
+            },
+            type:'post',
+            url:'/check-user-pass',
+            data:{current_pass:current_pass},
+            success:function (resp){
+                if(resp=="false"){
+                    $("#chkPwd").html("<font color = 'red'> Current Password is incorrect</font>");
+                }else if(resp=="true"){
+                    $("#chkPwd").html("<font color = 'green'> Current Password is correct</font>");
+                }
+            },error:function(){
+                alert('Error');
+            }
+        });
+    });
+
+    $("#passwordForm").validate({
+        rules:{
+            current_pass:{
+                required: true,
+                minlength:6,
+                maxlength:20
+            },
+            new_pass:{
+                required: true,
+                minlength:6,
+                maxlength:20
+            },
+            confirm_pass:{
+                required:true,
+                minlength:6,
+                maxlength:20,
+                equalTo:"#new_pass"
+            }
+        },
+        errorClass: "help-inline",
+        errorElement: "span",
+        highlight:function(element, errorClass, validClass) {
+            $(element).parents('.control-group').addClass('error');
+        },
+        unhighlight: function(element, errorClass, validClass) {
+            $(element).parents('.control-group').removeClass('error');
+            $(element).parents('.control-group').addClass('success');
+        }
+    });
+
 });
 
 // Instantiate EasyZoom instances
