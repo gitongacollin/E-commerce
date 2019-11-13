@@ -103,6 +103,12 @@ Route::group(['middleware' => ['adminlogin']],function(){
 	 Route::match(['get','post'],'/admin/edit-coupon/{id}', 'CouponsController@editCoupon');
 	 Route::get('/admin/delete-coupon/{id}','CouponsController@deleteCoupon');
 
+	 //Banners Routes
+	 Route::match(['get','post'],'/admin/add-banner','BannersController@addBanner');
+	 Route::get('/admin/view-banners','BannersController@viewBanner');
+	 Route::match(['get','post'],'/admin/edit-banner/{id}','BannersController@editBanner');
+	 Route::get('/admin/delete-banner/{id}','BannersController@deleteBanner');
+
 
 });
 

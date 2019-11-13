@@ -78,7 +78,7 @@
               <div class="control-group">
                 <label class="control-label">Image</label>
                 <div class="controls">
-                  <input type="file" name="image" id="image">
+                  <div id="uniform-undefined"><input name="image" id="image" type="file"></div>
                 </div>
               </div>
               <div class="control-group">
