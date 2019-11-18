@@ -114,12 +114,18 @@
 									</tr>
 									<tr class="discount-cost">
 										<td>Discount Amount (-)</td>
-										<td>KSH <?php echo Session::get('couponAmount'); ?>
+										<td>
+											@if(!empty(Session::get('couponAmount')))
+												KSH <?php echo Session::get('couponAmount'); ?>
+											@else
+												KSH 0
+											@endif
 										</td>	
 									</tr>
 									<tr>
 										<td>Grand Total</td>
-										<td><span>KSH <?php echo $total_amount - Session::get('couponAmount') ; ?></span></td>
+										<?php $grand_total = $total_amount - Session::get('couponAmount'); ?>
+										<td><span>KSH <?php echo $grand_total; ?></span></td>
 										
 									</tr>
 								</table>

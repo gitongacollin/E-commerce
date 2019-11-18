@@ -16,6 +16,8 @@ use App\Coupon;
 use App\DeliveryAddress;
 use App\User;
 use App\County;
+use App\Order;
+use App\OrdersProduct;
 
 class ProductsController extends Controller
 {
@@ -412,9 +414,15 @@ class ProductsController extends Controller
     }
 
     public function cart(){
+        if(Auth::check()){
+            $user_email = Auth::user()->email;
+            $userCart = DB::table('cart')->where(['user_email' => $user_email])->get();
 
-        $session_id = Session::get('session_id');
-        $userCart = DB::table('cart')->where(['session_id' => $session_id])->get();
+        }else{
+            $session_id = Session::get('session_id');
+            $userCart = DB::table('cart')->where(['session_id' => $session_id])->get();
+        }
+        
         foreach($userCart as $key => $product){
             // echo $product->product_id;
             $productDetails = product::where('id',$product->product_id)->first();
@@ -522,7 +530,7 @@ class ProductsController extends Controller
         
         // echo $id; die;
         DB::table('cart')->where('id', $id)->delete();
-        return redirect('cart')->with('flash_message_success', 'Product has been successfully removed from cart');
+        return redirect('cart')->with('flash_message_error', 'Product has been successfully removed from cart');
     }
 
     public function updateCartQuantity($id=null,$quantity=null){
@@ -567,8 +575,17 @@ class ProductsController extends Controller
            }
            //Coupon is valid
            //get cart total amount
-           $session_id = Session::get('session_id');
-           $userCart = DB::table('cart')->where(['session_id'=>$session_id])->get();
+
+
+           if(Auth::check()){
+                $user_email = Auth::user()->email;
+                $userCart = DB::table('cart')->where(['user_email' => $user_email])->get();
+
+            }else{
+                $session_id = Session::get('session_id');
+                $userCart = DB::table('cart')->where(['session_id' => $session_id])->get();
+            }
+
            $total_amount = 0;
            foreach ($userCart as $item ) {
                $total_amount = $total_amount + ($item->price * $item->quantity);
@@ -611,5 +628,66 @@ class ProductsController extends Controller
         Session::put('ShippingCharges',$shippingCharges);*/
 
         return view('products.order_review')->with(compact('userDetails','shippingDetails','userCart'));
+    }
+
+    public function placeOrder(Request $request){
+        if($request->isMethod('post')){
+            $data = $request->all();
+            $user_id = Auth::user()->id;
+            $user_email = Auth::user()->email;
+
+
+            //Get shipping address of User
+            $shippingDetails = DeliveryAddress::where(['user_email' => $user_email])->first();
+            /*$shippingDetails = json_decode(json_encode($shippingDetails));*/
+
+            if(empty(Session::get('CouponCode'))){
+               $coupon_code = ''; 
+            }else{
+               $coupon_code = Session::get('CouponCode'); 
+            }
+
+            if(empty(Session::get('CouponAmount'))){
+               $coupon_amount = ''; 
+            }else{
+               $coupon_amount = Session::get('CouponAmount'); 
+            }
+
+
+            $order = new order;
+            $order->user_id = $user_id;
+            $order->user_email = $user_email;
+            $order->name = $shippingDetails->name;
+            $order->address = $shippingDetails->address;
+            $order->county = $shippingDetails->county;
+            $order->region = $shippingDetails->region;
+            $order->phone = $shippingDetails->phone;
+            $order->coupon_code = $coupon_code;
+            $order->coupon_amount = $coupon_amount;
+            $order->order_status = "New";
+            $order->payment_method = $data['payment_method'];
+            $order->grand_total = $data['grand_total'];
+            $order->save();
+
+            $order_id = DB::getPdo()->lastInsertId();
+
+            $cartProducts = DB::table('cart')->where(['user_email'=>$user_email])->get();
+            foreach($cartProducts as $pro){
+                $cartpro = new OrdersProduct;
+                $cartpro->order_id = $order_id;
+                $cartpro->user_id = $user_id;
+                $cartpro->product_id = $pro->product_id;
+                $cartpro->product_code = $pro->product_code;
+                $cartpro->product_name = $pro->product_name;
+                $cartpro->product_size = $pro->size;
+                $cartpro->product_price = $pro->price;
+                $cartpro->product_qty = $pro->quantity;
+                $cartpro->save();
+            }
+
+
+
+            /*echo "<pre>";print_r($shippingDetails);die;*/
+        }
     }
 }

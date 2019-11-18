@@ -274,6 +274,10 @@ $('.toggle').on('click', function() {
 });
 
 function selectPaymentMethod(){
-    alert("test");
-    return false;
+    if($('#Paypal').is(':checked') || $('#COD').is(':checked')){
+        /*alert("checked");*/
+    }else{
+        alert("Please select Payment Method");
+        return false;
+    }
 }
