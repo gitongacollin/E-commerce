@@ -272,3 +272,8 @@ $('.toggle').on('click', function() {
         api2._init();
     }
 });
+
+function selectPaymentMethod(){
+    alert("test");
+    return false;
+}

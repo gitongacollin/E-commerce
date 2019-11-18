@@ -109,20 +109,17 @@
 										<td>KSH {{ $total_amount }}</td>
 									</tr>
 									<tr class="shipping-cost">
+										<td>Shipping cost (+)</td>
+										<td>KSH 0 </td>	
+									</tr>
+									<tr class="discount-cost">
 										<td>Discount Amount (-)</td>
-										<td>
-											@if(!empty(Session::get('CouponAmount')))
-												KSH {{ Session::get('CouponAmount') }}
-											@else
-												KSH 0
-											@endif
+										<td>KSH <?php echo Session::get('couponAmount'); ?>
 										</td>	
 									</tr>
 									<tr>
 										<td>Grand Total</td>
-										<?php 
-										$grand_total = $total_amount - Session::get('CouponAmount'); ?>
-										<td>KSH {{ $grand_total }}</td>
+										<td><span>KSH <?php echo $total_amount - Session::get('couponAmount') ; ?></span></td>
 										
 									</tr>
 								</table>
@@ -133,6 +130,25 @@
 					</tbody>
 				</table>
 			</div>
+
+			<form name="paymentForm" id="paymentForm" action="{{ url('/place-order') }}" method="post">
+				@csrf
+				<input type="hidden" name="grand_total" value="{{ $grand_total }}">
+				<div class="payment-options">
+					<span>
+						<label><strong>Select Payment Method:</strong></label>
+					</span>
+					<span>
+						<label><input type="radio" name="payment_method" id="COD" value="COD"> <strong>Cash on Delivery</strong></label>
+					</span>
+					<span>
+						<label><input type="radio" name="payment_method" id="Paypal" value="Paypal"> <strong>Paypal</strong></label>
+					</span>
+					<span style="float:right;">
+						<button type="submit" class="btn btn-default" onclick="return selectPaymentMethod();">Place Order</button>
+					</span>
+				</div>
+			</form>
 	</div>
 
 </section>
