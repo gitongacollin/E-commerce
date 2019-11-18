@@ -72,6 +72,8 @@ Route::match(['get','post'],'/account','UsersController@account');
 Route::post('/check-user-pass','UsersController@chkUserPassword');
 Route::post('/update-user-pass','UsersController@updatePassword');
 Route::match(['get','post'],'/checkout','ProductsController@checkout');
+//order review page
+Route::match(['get','post'],'/order-review','ProductsController@orderReview');
 
 });
 

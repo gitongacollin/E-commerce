@@ -473,9 +473,9 @@ class ProductsController extends Controller
                 return redirect()->back()->with('flash_message_error','Your location is not available for delivery. Please enter another location.');
             }*/
 
-            echo "Redirect to order Review Page"; die;
+            /*echo "Redirect to order Review Page"; die;*/
 
-            //return redirect()->action('ProductsController@orderReview');
+            return redirect('/order-review');
         }
 
         $meta_title = "Checkout - Soko Freshy";
@@ -588,5 +588,28 @@ class ProductsController extends Controller
 
         }
 
+    }
+
+    public function orderReview(){
+        $user_id = Auth::user()->id;
+        $user_email = Auth::user()->email;
+        $userDetails = User::where('id',$user_id)->first();
+        $shippingDetails = DeliveryAddress::where('user_id',$user_id)->first();
+        $shippingDetails = json_decode(json_encode($shippingDetails));
+        
+        $userCart = DB::table('cart')->where(['user_email' => $user_email])->get();
+        $total_weight = 0;
+        foreach($userCart as $key => $product){
+            $productDetails = Product::where('id',$product->product_id)->first();
+            $userCart[$key]->image = $productDetails->image;
+            $total_weight = $total_weight + $productDetails->weight;
+        }
+        /*echo "<pre>";print_r($userCart); die;*/
+
+        // Fetch Shipping Charges
+        /*$shippingCharges = Product::get(ShippingCharges)($total_weight,$shippingDetails->county);
+        Session::put('ShippingCharges',$shippingCharges);*/
+
+        return view('products.order_review')->with(compact('userDetails','shippingDetails','userCart'));
     }
 }

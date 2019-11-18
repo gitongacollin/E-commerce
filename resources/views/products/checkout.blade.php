@@ -6,7 +6,7 @@
 		<div class="breadcrumbs">
 			<ol class="breadcrumb">
 			  <li><a href="#">Home</a></li>
-			  <li class="active">Check Out</li>
+			  <li class="active">CheckOut</li>
 			</ol>
 		</div>
 		<form action="{{ url('/checkout') }}" method="post">
