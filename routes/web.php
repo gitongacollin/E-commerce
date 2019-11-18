@@ -80,7 +80,8 @@ Route::match(['get','post'],'/place-order','ProductsController@placeOrder');
 Route::get('/thanks','ProductsController@thanks');
 //Users Order Page
 Route::get('/orders','ProductsController@userOrders');
-
+//user order product page
+Route::get('/orders/{id}','ProductsController@userOrderDetails');
 });
 
 Route::group(['middleware' => ['adminlogin']],function(){
