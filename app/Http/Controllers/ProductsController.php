@@ -498,8 +498,10 @@ class ProductsController extends Controller
         $data = $request->all();
         // echo "<pre>"; print_r($data); die;
 
-        if(!isset($data['user_email'])){
-            $data['user_email']='';
+        if(empty(Auth::user()->email)){
+            $data['user_email'] = '';
+        }else{
+            $data['user_email'] = Auth::user()->email;
         }
 
         $session_id = Session::get('session_id');
@@ -685,9 +687,21 @@ class ProductsController extends Controller
                 $cartpro->save();
             }
 
+            Session::put('order_id',$order_id);
+            Session::put('grand_total',$data['grand_total']);
+
+
+            return redirect('/thanks');
+
 
 
             /*echo "<pre>";print_r($shippingDetails);die;*/
         }
+
+
+    }
+
+    public function thanks(Request $request){
+        return view('products.thanks');
     }
 }

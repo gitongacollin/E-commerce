@@ -76,6 +76,8 @@ Route::match(['get','post'],'/checkout','ProductsController@checkout');
 Route::match(['get','post'],'/order-review','ProductsController@orderReview');
 //place order page
 Route::match(['get','post'],'/place-order','ProductsController@placeOrder');
+//Thank you page
+Route::get('/thanks','ProductsController@thanks');
 
 });
 
