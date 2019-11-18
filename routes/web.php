@@ -78,6 +78,8 @@ Route::match(['get','post'],'/order-review','ProductsController@orderReview');
 Route::match(['get','post'],'/place-order','ProductsController@placeOrder');
 //Thank you page
 Route::get('/thanks','ProductsController@thanks');
+//Users Order Page
+Route::get('/orders','ProductsController@userOrders');
 
 });
 
