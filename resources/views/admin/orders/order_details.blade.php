@@ -40,11 +40,11 @@
                 </tr>
                 <tr>
                   <td class="taskDesc">Order Total</td>
-                  <td class="taskStatus">INR {{ $orderDetails->grand_total }}</td>
+                  <td class="taskStatus">KSH {{ $orderDetails->grand_total }}</td>
                 </tr>
                 <tr>
                   <td class="taskDesc">Shipping Charges</td>
-                  <td class="taskStatus">INR {{ $orderDetails->shipping_charges }}</td>
+                  <td class="taskStatus">KSH {{ $orderDetails->shipping_charges }}</td>
                 </tr>
                 <tr>
                   <td class="taskDesc">Coupon Code</td>
@@ -52,7 +52,7 @@
                 </tr>
                 <tr>
                   <td class="taskDesc">Coupon Amount</td>
-                  <td class="taskStatus">INR {{ $orderDetails->coupon_amount }}</td>
+                  <td class="taskStatus">KSH {{ $orderDetails->coupon_amount }}</td>
                 </tr>
                 <tr>
                   <td class="taskDesc">Payment Method</td>
