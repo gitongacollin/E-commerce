@@ -30,6 +30,12 @@ class UsersController extends Controller
                     return redirect()->back()->with('flash_message_error','Your account is not activated! Please confirm your email to activate.');    
                 }
                 Session::put('frontSession',$data['email']);
+
+                if(!empty(Session::get('session_id'))){
+                    $session_id = Session::get('session_id');
+                    DB::table('cart')->where('session_id',$session_id)->update(['user_email' => $data['email']]);
+                }
+
                 return redirect('/');
 
             
@@ -54,6 +60,9 @@ class UsersController extends Controller
                 $user->name = $data['name'];
                 $user->email = $data['email'];
                 $user->password = bcrypt($data['password']);
+                date_default_timezone_set('Africa/Nairobi');
+                $user->created_at = date("Y-m-d H:i:s");
+                $user->updated_at = date("Y-m-d H:i:s");
                 $user->save();
 
 
@@ -69,6 +78,11 @@ class UsersController extends Controller
                 if(Auth::attempt(['email'=>$data['email'],'password'=>$data['password']])){
                 	
                     Session::put('frontSession',$data['email']);
+
+                    if(!empty(Session::get('session_id'))){
+                        $session_id = Session::get('session_id');
+                        DB::table('cart')->where('session_id',$session_id)->update(['user_email' => $data['email']]);
+                    }
 
                     return redirect('/');
                 }
@@ -192,6 +206,7 @@ class UsersController extends Controller
         //Session::flush();
         Auth::logout();
         Session::forget('frontSession');
+        Session::forget('session_id');
         return redirect('/')->with('flash_message_success','Logout Successful');
     }
 }

@@ -82,6 +82,8 @@ Route::get('/thanks','ProductsController@thanks');
 Route::get('/orders','ProductsController@userOrders');
 //user order product page
 Route::get('/orders/{id}','ProductsController@userOrderDetails');
+//PayPal page
+Route::get('/paypal','ProductsController@paypal');
 });
 
 Route::group(['middleware' => ['adminlogin']],function(){
@@ -128,6 +130,16 @@ Route::group(['middleware' => ['adminlogin']],function(){
 	 Route::match(['get','post'],'/admin/edit-banner/{id}','BannersController@editBanner');
 	 Route::get('/admin/delete-banner/{id}','BannersController@deleteBanner');
 
+	 //Orders Routes
+	 Route::get('/admin/view-orders','ProductsController@viewOrders');
+	//Order Details Route
+	Route::get('/admin/view-order/{id}','ProductsController@viewOrderDetails');
+
+	// Order Invoice
+	Route::get('/admin/view-order-invoice/{id}','ProductsController@viewOrderInvoice');
+
+	// Update Order Status
+	Route::post('/admin/update-order-status','ProductsController@updateOrderStatus');
 
 });
 

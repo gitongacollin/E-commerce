@@ -70,7 +70,7 @@
 							<div class="form-group">
 								<input name="shipping_phone" id="shipping_phone" @if(!empty($shippingDetails->phone)) value="{{ $shippingDetails->phone }}" @endif type="text" placeholder="Shipping Phone Number" class="form-control" />
 							</div>
-							<button type="submit" class="btn btn-default check Out">Check Out</button>
+							<button type="submit" class="btn btn-default check Out">Checkout</button>
 					</div><!--/sign up form-->
 				</div>
 			</div>

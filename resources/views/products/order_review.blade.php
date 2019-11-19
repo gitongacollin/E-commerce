@@ -145,7 +145,7 @@
 						<label><strong>Select Payment Method:</strong></label>
 					</span>
 					<span>
-						<label><input type="radio" name="payment_method" id="COD" value="COD"> <strong>Cash on Delivery</strong></label>
+						<label><input type="radio" name="payment_method" id="COD" value="Cash on Delivery"> <strong>Cash on Delivery</strong></label>
 					</span>
 					<span>
 						<label><input type="radio" name="payment_method" id="Paypal" value="Paypal"> <strong>Paypal</strong></label>

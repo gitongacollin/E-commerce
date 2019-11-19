@@ -28,6 +28,11 @@
         <li <?php if (preg_match("/view-banners/i", $url)) { ?>class="active" <?php } ?> ><a href="{{ url('/admin/view-banners')}}">View Banner</a></li>
       </ul>
     </li>
+    <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Orders</span> <span class="label label-important">0</span></a>
+      <ul <?php if (preg_match("/order/i", $url)) { ?>style="display: block;" <?php } ?> >
+        <li <?php if (preg_match("/view-orders/i", $url)) { ?>class="active" <?php } ?> ><a href="{{ url('/admin/view-orders')}}">View Orders</a></li>
+      </ul>
+    </li>
    <!--  <li><a class="submenu" href="{{ url('/admin/users') }}"> <i class="icon icon-th-list"></i> <span>Manage Users</span> <span class="label label-important">0</span></a></li>
     <li><a class="submenu" href="{{ url('/admin/role') }}"> <i class="icon icon-th-list"></i> <span>Manage Roles</span> <span class="label label-important">0</span></a>
     <li> <a href="#"><i class="icon icon-inbox"></i> <span>Invoice</span></a> </li> -->

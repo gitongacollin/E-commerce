@@ -68,14 +68,15 @@ class BannersController extends Controller
             	$data['link'] = '';
             }
 
-    		// Upload Image
+            // Upload Image
             if($request->hasFile('image')){
                 $image_tmp = Input::file('image');
-                if($image_tmp->isValid()){
+                if ($image_tmp->isValid()) {
+                    // Upload Images after Resize
                     $extension = $image_tmp->getClientOriginalExtension();
-                    $filename = rand(111,99999).'.'.$extension;
+                    $fileName = rand(111,99999).'.'.$extension;
                     $banner_path = 'images/frontend_images/banners/'.$filename;
-                    Image::make($image_tmp)->resize(1140,340)->save($banner_path);
+                    Image::make($image_tmp)->resize(1140, 340)->save($banner_path);
                 }
             }else if(!empty($data['current_image'])){
                 $fileName = $data['current_image'];
@@ -83,7 +84,7 @@ class BannersController extends Controller
                 $fileName = 'No Image';
             }
 
-            Banner::where('id',$id)->update(['status'=>$status,'title'=>$data['title'],'link'=>$data['link'],'image' =>$filename]);
+            Banner::where('id',$id)->update(['status'=>$status,'title'=>$data['title'],'link'=>$data['link'],'image'=>$fileName]);
             /*return redirect()->back()->with('flash_message_success','Banner has been updated Successfully');*/
             return redirect('/admin/view-banners')->with('flash_message_success','Banner has been updated Successfully!');
     	}

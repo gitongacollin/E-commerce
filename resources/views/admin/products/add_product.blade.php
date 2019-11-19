@@ -3,7 +3,7 @@
 
 <div id="content">
   <div id="content-header">
-    <div id="breadcrumb"> <a href="{{ url ('/admin/dashboard')}}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#">Products</a> <a href="#" class="current">Add Product</a> </div>
+    <div id="breadcrumb"> <a href="{{ url ('/admin/dashboard')}}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="{{ url('/admin/view-product')}}">Products</a> <a href="{{ url('/admin/add-product')}}"class="current">Add Product</a> </div>
     <h1>Add Product</h1>
     @if(Session::has('flash_message_error'))
         <div class="alert alert-danger alert-block">
@@ -63,12 +63,12 @@
                   <textarea name="description" id="description"> </textarea>
                 </div>
               </div>
-              <div class="control-group">
+              <!-- <div class="control-group">
                 <label class="control-label">Material & Care</label>
                 <div class="controls">
                   <textarea name="care" id="care"> </textarea>
                 </div>
-              </div>
+              </div> -->
               <div class="control-group">
                 <label class="control-label">Price</label>
                 <div class="controls">
