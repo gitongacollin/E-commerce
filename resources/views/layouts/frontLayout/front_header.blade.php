@@ -47,7 +47,7 @@ $maincategories = Controller::maincategories();
                         <div class="logo pull-left">
                             <a href="{{ url ('/')}}"><img src="{{ asset('images/frontend_images/home/logo.png') }}" alt="" /></a>
                         </div>
-                        <div class="btn-group pull-right clearfix">
+                        <!-- <div class="btn-group pull-right clearfix">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
                                     USA
@@ -69,7 +69,7 @@ $maincategories = Controller::maincategories();
                                     <li><a href="#">Pound</a></li>
                                 </ul>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="col-md-8 clearfix">
                         <div class="shop-menu clearfix pull-right">
