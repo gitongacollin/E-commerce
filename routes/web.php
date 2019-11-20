@@ -65,6 +65,11 @@ Route::get('/cart/update-quantity/{id}/{quantity}','ProductsController@updateCar
 //Coupon code on cart page
 Route::post('/cart/apply-coupon','ProductsController@applyCoupon');
 
+//Search products
+Route::post('/search-products','ProductsController@searchProducts');
+
+
+
 //Prevent all routes after login
 Route::group(['middleware'=>['frontLogin']],function(){
 //Users Account Page
@@ -140,6 +145,8 @@ Route::group(['middleware' => ['adminlogin']],function(){
 
 	// Update Order Status
 	Route::post('/admin/update-order-status','ProductsController@updateOrderStatus');
+	// Users Route
+	Route::get('/admin/view-users','UsersController@viewUsers');
 
 });
 

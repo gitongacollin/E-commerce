@@ -2,7 +2,7 @@
 <html lang="en">
     
 <head>
-        <title>Matrix Admin</title><meta charset="UTF-8" />
+        <title>Soko Freshy Admin</title><meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" href="{{ asset ('css/backend_css/bootstrap.min.css') }}" />
 		<link rel="stylesheet" href="{{ asset ('css/backend_css/bootstrap-responsive.min.css') }}" />
@@ -25,7 +25,7 @@
                 <strong>{!! session('flash_message_success') !!}</strong>
             </div>
         @endif          
-            <form id="loginform" class="form-vertical" method="POST" action="{{url ('admin')}}">{{ csrf_field() }}
+            <form id="loginform" class="form-vertical" method="POST" action="{{url ('admin')}}">
                 @csrf
 
 				 <div class="control-group normal_text"> <h3><img src="{{ asset ('images/backend_images/logo.png') }}" alt="Logo" /></h3></div>

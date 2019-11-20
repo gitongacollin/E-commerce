@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Mail;
 use Auth;
 use Session;
+use Image;
+use DB;
 use App\Category;
 use App\Product;
-use Image;
 use App\ProductsAttribute;
 use App\ProductsImage;
-use DB;
 use App\Coupon;
 use App\DeliveryAddress;
 use App\User;
@@ -294,6 +295,25 @@ class ProductsController extends Controller
         }
 
         return view('products.listing')->with(compact('categories','categoriesDetails', 'productsAll'));
+    }
+
+    public function searchProducts(Request $request){
+        if($request->isMethod('post')){
+            $data = $request->all();
+            $categories = Category::with('categories')->where(['parent_id' => 0])->get();
+            $search_product = $data['product'];
+            /*$productsAll = Product::where('product_name','like','%'.$search_product.'%')->orwhere('product_code',$search_product)->where('status',1)->paginate();*/
+            $productsAll = Product::where(function($query) use($search_product)
+            {
+                $query->where('product_name','like','%'.$search_product.'%');
+                $query->orWhere('product_code','like','%'.$search_product.'%');
+                $query->orWhere('description','like','%'.$search_product.'%');
+            })->where('status',1)->get();
+
+            $breadcrumb = "<a href='/'>Home</a> / ".$search_product;
+
+            return view('products.listing')->with(compact('categories','productsAll','search_product','breadcrumb')); 
+        }
     }
 
     public function product($id=null){
@@ -690,8 +710,35 @@ class ProductsController extends Controller
             Session::put('order_id',$order_id);
             Session::put('grand_total',$data['grand_total']);
 
+            if($data['payment_method']=="Cash on Delivery"){
 
-            return redirect('/thanks');
+                $productDetails = Order::with('orders')->where('id',$order_id)->first();
+                $productDetails = json_decode(json_encode($productDetails),true);
+                /*echo "<pre>"; print_r($productDetails);*/ /*die;*/
+
+                $userDetails = User::where('id',$user_id)->first();
+                $userDetails = json_decode(json_encode($userDetails),true);
+                /*echo "<pre>"; print_r($userDetails); die;*/
+                /* Code for Order Email Start */
+                $email = $user_email;
+                $messageData = [
+                    'email' => $email,
+                    'name' => $shippingDetails->name,
+                    'order_id' => $order_id,
+                    'productDetails' => $productDetails,
+                    'userDetails' => $userDetails
+                ];
+                Mail::send('emails.order',$messageData,function($message) use($email){
+                    $message->to($email)->subject('Order Placed - SokoFreshy');    
+                });
+                /* Code for Order Email Ends */
+
+                // COD - Redirect user to thanks page after saving order
+                return redirect('/thanks');
+            }else{
+                // Paypal - Redirect user to paypal page after saving order
+                return redirect('/paypal');
+            }
 
 
 
@@ -761,7 +808,7 @@ class ProductsController extends Controller
         if($request->isMethod('post')){
             $data = $request->all();
             Order::where('id',$data['order_id'])->update(['order_status'=>$data['order_status']]);
-            return redirect()->back()->with('flash_message_success','Order Status has been updated successfully!');
+            return redirect()->back()->with('flash_message_success','Status of order has been updated successfully!');
         }
     }
 }

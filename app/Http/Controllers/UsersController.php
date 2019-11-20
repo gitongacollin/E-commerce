@@ -209,4 +209,9 @@ class UsersController extends Controller
         Session::forget('session_id');
         return redirect('/')->with('flash_message_success','Logout Successful');
     }
+
+    public function viewUsers(){
+        $users = User::get();
+        return view('admin.users.view_users')->with(compact('users'));
+    }
 }
