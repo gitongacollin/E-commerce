@@ -14,7 +14,7 @@
 						@if(!empty($search_product))
 							{{ $search_product }} Item
 						@else
-							{{ $categoryDetails->name }} Items
+							{{ $categoriesDetails->name }} Items
 						@endif
 						    ({{ count($productsAll) }})
 					</h2>
@@ -48,7 +48,7 @@
 					</div>
 					@endforeach
 					@if(empty($search_product))
-						<div align="center">{{ $productsAll->links() }}</div>
+					
 					@endif
 					
 				</div><!--features_items-->

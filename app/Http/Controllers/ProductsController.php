@@ -288,13 +288,16 @@ class ProductsController extends Controller
                 $cat_ids[] = $subcat->id;
             }
             $productsAll = Product::whereIn('category_id', $cat_ids)->where('status',1)->get();
+            $breadcrumb = "<a href='/'>Home</a> / <a href='".$categoriesDetails->url."'>".$categoriesDetails->name."</a>";
 
         }else{
             $productsAll = Product::where(['category_id'=>$categoriesDetails->id])->where('status',1)->get(); 
+            $mainCategory = Category::where('id',$categoriesDetails->parent_id)->first();
+            $breadcrumb = "<a href='/'>Home</a> / <a href='".$mainCategory->url."'>".$mainCategory->name."</a> / <a href='".$categoriesDetails->url."'>".$categoriesDetails->name."</a>";
 
         }
 
-        return view('products.listing')->with(compact('categories','categoriesDetails', 'productsAll'));
+        return view('products.listing')->with(compact('categories','categoriesDetails', 'productsAll','breadcrumb'));
     }
 
     public function searchProducts(Request $request){
@@ -316,6 +319,7 @@ class ProductsController extends Controller
         }
     }
 
+
     public function product($id=null){
 
         //show 404 page if product status is 0
@@ -332,6 +336,13 @@ class ProductsController extends Controller
          
         // Get All Categories and Sub Categories
         $categories = Category::with('categories')->where(['parent_id' => 0])->get();
+        $categoryDetails = Category::where('id',$productDetails->category_id)->first();
+        if($categoryDetails->parent_id==0){
+            $breadcrumb = "<a href='/'>Home</a> / <a href='".$categoryDetails->url."'>".$categoryDetails->name."</a> / ".$productDetails->product_name;
+        }else{
+            $mainCategory = Category::where('id',$categoryDetails->parent_id)->first();
+            $breadcrumb = "<a style='color:#333;' href='/'>Home</a> / <a style='color:#333;' href='/products/".$mainCategory->url."'>".$mainCategory->name."</a> / <a style='color:#333;' href='/products/".$categoryDetails->url."'>".$categoryDetails->name."</a> / ".$productDetails->product_name;   
+        }
 
         //Get Alt images
         $productAltImages = ProductsImage::where('product_id',$id)->get();
@@ -353,7 +364,7 @@ class ProductsController extends Controller
         // die;
 
 
-         return view('products.detail')->with(compact('productDetails','categories','productAltImages','total_stock','relatedProducts'));
+         return view('products.detail')->with(compact('productDetails','categories','productAltImages','breadcrumb','total_stock','relatedProducts'));
     }
 
     public function getProductPrice(Request $request){
