@@ -11,6 +11,7 @@ use App\County;
 use App\SubCounty;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 class UsersController extends Controller
 {
@@ -213,5 +214,15 @@ class UsersController extends Controller
     public function viewUsers(){
         $users = User::get();
         return view('admin.users.view_users')->with(compact('users'));
+    }
+
+    public function viewUsersCharts(){
+        $current_month_users = User::whereYear('created_at', Carbon::now()->year)
+                                ->whereMonth('created_at', Carbon::now()->month)->count(); 
+        $last_month_users = User::whereYear('created_at', Carbon::now()->year)
+                                ->whereMonth('created_at', Carbon::now()->subMonth(1))->count();
+        $last_two_month_users = User::whereYear('created_at', Carbon::now()->year)
+                                ->whereMonth('created_at', Carbon::now()->subMonth(2))->count();
+        return view('admin.users.view_users_charts')->with(compact('current_month_users','last_month_users','last_two_month_users'));
     }
 }
