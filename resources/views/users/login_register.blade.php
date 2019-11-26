@@ -31,6 +31,7 @@
 							<input id="email" name="email" type="email" placeholder="Email Address"/>
 							<input id="password" name="password" type="password" placeholder="Password"/>
 							<button type="submit" class="btn btn-default">Signup</button>
+							<a href="{{ url('forgot-password') }}">Forgot Password?</a>
 						</form>
 					</div><!--/sign up form-->
 				</div>

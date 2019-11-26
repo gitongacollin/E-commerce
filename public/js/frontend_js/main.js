@@ -281,3 +281,10 @@ function selectPaymentMethod(){
         return false;
     }
 }
+/*function selectPackaging(){
+    if($('#empty').is('selected')){
+        alert("Select packaging");
+    }else{
+
+    }
+}*/

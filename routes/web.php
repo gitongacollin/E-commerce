@@ -67,6 +67,8 @@ Route::post('/cart/apply-coupon','ProductsController@applyCoupon');
 
 //Search products
 Route::post('/search-products','ProductsController@searchProducts');
+//forgot password
+Route::match(['get','post'],'forgot-password','UsersController@forgotPassword');
 
 
 
@@ -148,11 +150,35 @@ Route::group(['middleware' => ['adminlogin']],function(){
 
 	// Update Order Status
 	Route::post('/admin/update-order-status','ProductsController@updateOrderStatus');
-	// Users Route
+	// charts/reports Route
 	Route::get('/admin/view-users','UsersController@viewUsers');
+
+	//Admin view route
+	Route::get('/admin/view-admins','AdminController@viewAdmins');
+	Route::match(['get','post'],'/admin/add-admins','AdminController@addAdmin');
+
 	Route::get('/admin/view-users-charts','UsersController@viewUsersCharts');
 
 	Route::get('/admin/view-users-counties','UsersController@viewUsersCountiesCharts');
+
+	// Get Enquiries
+	Route::get('/admin/get-enquiries','CmsController@getEnquiries');
+
+	// View Enquiries
+	Route::get('/admin/view-enquiries','CmsController@viewEnquiries');
+
+	// Add CMS Route 
+	Route::match(['get','post'],'/admin/add-cms-page','CmsController@addCmsPage');
+
+	// Edit CMS Route
+	Route::match(['get','post'],'/admin/edit-cms-page/{id}','CmsController@editCmsPage');
+
+	// View CMS Pages Route
+	Route::get('/admin/view-cms-pages','CmsController@viewCmsPages');
+
+	// Delete CMS Route 
+	Route::get('/admin/delete-cms-page/{id}','CmsController@deleteCmsPage');
+	//Admin view route
 
 });
 

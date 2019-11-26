@@ -34,22 +34,12 @@ class ProductsController extends Controller
             $product = new Product;
             $product->category_id = $data['category_id'];
             $product->product_name = $data['product_name'];
-            if(!empty($data['product_color'])){
-                $product->product_color = $data['product_color'];
-            }else{
-                $product->product_color = '';
-            }
+            
             $product->product_code = $data['product_code'];
             if(!empty($data['description'])){
                 $product->description = $data['description'];
             }else{
                 $product->description = '';
-            }
-
-            if(!empty($data['care'])){
-                $product->care = $data['care'];
-            }else{
-                $product->care = '';
             }
             
             $product->price = $data['price'];
@@ -126,11 +116,8 @@ class ProductsController extends Controller
             if(empty($data['description'])){
                 $data['description'] = '';
             }
-            if(empty($data['care'])){
-                $data['care'] = '';
-            }
             Product::where(['id'=>$id])->update(['category_id'=>$data['category_id'],'product_name'=>$data['product_name'],
-                'product_code'=>$data['product_code'],'care'=>$data['care'],'description'=>$data['description'],'price'=>$data['price'],'image'=>$fileName, 'status'=>$status]);
+                'product_code'=>$data['product_code'],'description'=>$data['description'],'price'=>$data['price'],'image'=>$fileName, 'status'=>$status]);
         
             return redirect('/admin/view-product')->with('flash_message_success', 'Product has been edited successfully');
         }
@@ -687,6 +674,42 @@ class ProductsController extends Controller
             $user_id = Auth::user()->id;
             $user_email = Auth::user()->email;
 
+             // Prevent Out of Stock Products from ordering
+            $userCart = DB::table('cart')->where('user_email',$user_email)->get();
+            foreach($userCart as $cart){
+
+                $getAttributeCount = Product::getAttributeCount($cart->product_id,$cart->size);
+                if($getAttributeCount==0){
+                    Product::deleteCartProduct($cart->product_id,$user_email);
+                    return redirect('/cart')->with('flash_message_error','One of the product is not available. Try again!');
+                }
+
+                $product_stock = Product::getProductStock($cart->product_id,$cart->size);
+                if($product_stock==0){
+                    Product::deleteCartProduct($cart->product_id,$user_email);
+                    return redirect('/cart')->with('flash_message_error','Sold Out product removed from Cart. Try again!');
+                }
+                /*echo "Original Stock: ".$product_stock;
+                echo "Demanded Stock: ".$cart->quantity; die;*/
+                if($cart->quantity>$product_stock){
+                    return redirect('/cart')->with('flash_message_error','Reduce Product Stock and try again.');    
+                }
+
+                $product_status = Product::getProductStatus($cart->product_id);
+                if($product_status==0){
+                    Product::deleteCartProduct($cart->product_id,$user_email);
+                    return redirect('/cart')->with('flash_message_error','Disabled product removed from Cart. Please try again!');
+                }
+
+                $getCategoryId = Product::select('category_id')->where('id',$cart->product_id)->first();
+                $category_status = Product::getCategoryStatus($getCategoryId->category_id);
+                if($category_status==0){
+                    Product::deleteCartProduct($cart->product_id,$user_email);
+                    return redirect('/cart')->with('flash_message_error','One of the product category is disabled. Please try again!');    
+                }
+
+            }
+
 
             //Get shipping address of User
             $shippingDetails = DeliveryAddress::where(['user_email' => $user_email])->first();
@@ -734,6 +757,17 @@ class ProductsController extends Controller
                 $cartpro->product_price = $pro->price;
                 $cartpro->product_qty = $pro->quantity;
                 $cartpro->save();
+
+                // Reduce Stock Script Starts
+                $getProductStock = ProductsAttribute::where('sku',$pro->product_code)->first();
+                /*echo "Original Stock: ".$getProductStock->stock;
+                echo "Stock to reduce: ".$pro->quantity;*/
+                $newStock = $getProductStock->stock - $pro->quantity; 
+                if($newStock<0){
+                    $newStock = 0;
+                }
+               ProductsAttribute::where('sku',$pro->product_code)->update(['stock'=>$newStock]);
+                // Reduce Stock Script Ends
             }
 
             Session::put('order_id',$order_id);

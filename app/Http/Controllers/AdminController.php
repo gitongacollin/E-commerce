@@ -82,5 +82,19 @@ class AdminController extends Controller
         return redirect('/admin')->with('flash_message_success','Logout Successful');
     }
 
+    public function viewAdmins(){
+        $admins = Admin::get();
+        /*$admins = json_decode(json_encode($admins));
+        echo "<pre>"; print_r($admins); die;*/
+        return view('admin.admins.view_admins')->with(compact('admins'));
+    }
+
+    public function addAdmin(Request $request){
+        if($request->isMethod('post')){
+            $data = $request->all();
+            /*echo "<pre>";print_r($data);die;*/
+        }
+        return view('admin.admins.add_admins');
+    }
 
 }

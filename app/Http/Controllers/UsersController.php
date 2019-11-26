@@ -91,15 +91,54 @@ class UsersController extends Controller
     	}
     }
 
+    public function forgotPassword(Request $request){
+        if($request->isMethod('post')){
+            $data = $request->all();
+            /*echo "<pre>"; print_r($data); die;*/
+            $userCount = User::where('email',$data['email'])->count();
+            if($userCount == 0){
+                return redirect()->back()->with('flash_message_error','Email does not exists!');
+            }
+
+            //Get User Details
+            $userDetails = User::where('email',$data['email'])->first();
+
+            //Generate Random Password
+            $random_password = str_random(8);
+
+            //Encode/Secure Password
+            $new_password = bcrypt($random_password);
+
+            //Update Password
+            User::where('email',$data['email'])->update(['password'=>$new_password]);
+
+            //Send Forgot Password Email Code
+            $email = $data['email'];
+            $name = $userDetails->name;
+            $messageData = [
+                'email'=>$email,
+                'name'=>$name,
+                'password'=>$random_password
+            ];
+            Mail::send('emails.forgotpassword',$messageData,function($message)use($email){
+                $message->to($email)->subject('New Password - Soko Freshy');
+            });
+
+            return redirect('login-register')->with('flash_message_success','Please check your email for new password!');
+
+        }
+        return view('users.forgot_password');
+    }
+
     public function confirmAccount($email){
         $email = base64_decode($email);
         $userCount = User::where('email',$email)->count();
         if($userCount > 0){
             $userDetails = User::where('email',$email)->first();
-            if($userDetails->markEmailAsVerified()){
-                return redirect('')->with('flash_message_error','Your Email account is already activated. You can login.');
+            if($userDetails->status == 1){
+                return redirect('login-register')->with('flash_message_error','Your Email account is already activated. You can login.');
             }else{
-                User::where('email',$email)->update(['email_verified_at'=>now()]);
+                User::where('email',$email)->update(['status'=>1]);
 
                 // Send Welcome Email
                 $messageData = ['email'=>$email,'name'=>$userDetails->name];
@@ -107,7 +146,7 @@ class UsersController extends Controller
                     $message->to($email)->subject('Welcome to Soko Freshy Website');
                 });
 
-                return redirect('')->with('flash_message_success','Your Email account is activated. You can login.');
+                return redirect('login-register')->with('flash_message_success','Your Email account is activated. You can login.');
             }
         }else{
             abort(404);
