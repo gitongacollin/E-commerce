@@ -140,6 +140,9 @@ Route::group(['middleware' => ['adminlogin']],function(){
 	//Order Details Route
 	Route::get('/admin/view-order/{id}','ProductsController@viewOrderDetails');
 
+	
+	Route::get('/admin/view-order-charts','ProductsController@viewOrdersCharts');
+
 	// Order Invoice
 	Route::get('/admin/view-order-invoice/{id}','ProductsController@viewOrderInvoice');
 

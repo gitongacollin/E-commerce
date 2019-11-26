@@ -19,6 +19,7 @@ use App\User;
 use App\County;
 use App\Order;
 use App\OrdersProduct;
+use Carbon\Carbon;
 
 class ProductsController extends Controller
 {
@@ -838,5 +839,15 @@ class ProductsController extends Controller
             Order::where('id',$data['order_id'])->update(['order_status'=>$data['order_status']]);
             return redirect()->back()->with('flash_message_success','Status of order has been updated successfully!');
         }
+    }
+
+    public function viewOrdersCharts(){
+        $current_month_orders = Order::whereYear('created_at', Carbon::now()->year)
+                                ->whereMonth('created_at', Carbon::now()->month)->count(); 
+        $last_month_orders = Order::whereYear('created_at', Carbon::now()->year)
+                                ->whereMonth('created_at', Carbon::now()->subMonth(1))->count();
+        $last_two_month_orders = Order::whereYear('created_at', Carbon::now()->year)
+                                ->whereMonth('created_at', Carbon::now()->subMonth(2))->count();
+        return view('admin.orders.view_orders_charts')->with(compact('current_month_orders','last_month_orders','last_two_month_orders'));
     }
 }

@@ -1,13 +1,13 @@
 <?php
-
+ 
 $current_month = date('M');
 $last_month = date('M',strtotime("-1 month"));
 $last_two_month = date('M',strtotime("-2 month"));
  
 $dataPoints = array(
-  array("y" => $last_two_month_users, "label" => $last_two_month),
-  array("y" => $last_month_users, "label" => $last_month),
-  array("y" => $current_month_users, "label" => $current_month)
+  array("y" => $last_two_month_orders, "label" => $last_two_month),
+  array("y" => $last_month_orders, "label" => $last_month),
+  array("y" => $current_month_orders, "label" => $current_month)
 );
  
 ?>
@@ -16,29 +16,35 @@ $dataPoints = array(
 @section('content')
 
 <script>
-window.onload = function () {
+  window.onload = function() {
+   
+  var chart = new CanvasJS.Chart("chartContainer", {
+    animationEnabled: true,
+    theme: "light2",
+    title:{
+      text: "Orders Reports"
+    },
+    axisY: {
+      title: "Number of Orders"
+    },
+    data: [{
+      type: "column",
+      showInLegend: true,
+      legendMarkerColor: "grey",
+      legendText: "Last 3 months",
+      yValueFormatString: "#,##0.##",
+      dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
+    }]
+  });
+  chart.render();
  
-var chart = new CanvasJS.Chart("chartContainer", {
-  title: {
-    text: "Users Reports"
-  },
-  axisY: {
-    title: "Number of Users"
-  },
-  data: [{
-    type: "line",
-    dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
-  }]
-});
-chart.render();
- 
-}
+  }
 </script>
 
 <div id="content">
   <div id="content-header">
-    <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#">Users</a> <a href="#" class="current">View Users</a> </div>
-    <h1>Users</h1>
+    <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#">Orders</a> <a href="#" class="current">View Orders</a> </div>
+    <h1>Orders</h1>
     @if(Session::has('flash_message_error'))
       <div class="alert alert-error alert-block">
           <button type="button" class="close" data-dismiss="alert">×</button> 
@@ -58,7 +64,7 @@ chart.render();
       <div class="span12">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
-            <h5>Users</h5>
+            <h5>Orders</h5>
           </div>
           <div class="widget-content nopadding">
             <div id="chartContainer" style="height: 370px; width: 100%;"></div>
