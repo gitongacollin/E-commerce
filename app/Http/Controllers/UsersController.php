@@ -225,4 +225,13 @@ class UsersController extends Controller
                                 ->whereMonth('created_at', Carbon::now()->subMonth(2))->count();
         return view('admin.users.view_users_charts')->with(compact('current_month_users','last_month_users','last_two_month_users'));
     }
+
+    public function viewUsersCountiesCharts(){
+        $getUserCounties = User::select('county',DB::raw('count(county) as count'))->groupBy('county')->get();
+        /*$getUserCounties = json_decode(json_encode($getUserCounties));
+        echo "<pre>";print_r($getUserCounties);die;*/
+        /*echo $getUserCounties[0]['county'];die;*/
+        
+        return view('admin.users.view_users_counties_charts')->with(compact('getUserCounties'));
+    }
 }
