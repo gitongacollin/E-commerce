@@ -155,7 +155,10 @@ Route::group(['middleware' => ['adminlogin']],function(){
 
 	//Admin view route
 	Route::get('/admin/view-admins','AdminController@viewAdmins');
+
 	Route::match(['get','post'],'/admin/add-admins','AdminController@addAdmin');
+
+	Route::match(['get','post'],'/admin/edit-admin/{id}', 'AdminController@editAdmin');
 
 	Route::get('/admin/view-users-charts','UsersController@viewUsersCharts');
 

@@ -34,6 +34,7 @@
                   <th>Title</th>
                   <th>Link</th>
                   <th>Image</th>
+                  <th>Status</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -48,6 +49,12 @@
                     <img style="width: 250px;" src="{{ asset('/images/frontend_images/banners/'.$banner->image) }}">
                     @endif
                   </td>
+                  <td >
+                    @if($banner->status==1)
+                      <span style="color:green">Active</span>
+                    @else
+                      <span style="color:red">Inactive</span>
+                    @endif</td>
                   <td class="center">
                     <a href="{{ url('/admin/edit-banner/'.$banner->id) }}" class="btn btn-primary btn-mini">Edit</a> 
                     <a id="delBanner" rel="{{ $banner->id }}" rel1="delete-banner" href="javascript:" <?php /* href="{{ url('/admin/delete-banner/'.$banner->id) }}" */ ?> class="btn btn-danger btn-mini deleteRecord">Delete</a>

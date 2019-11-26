@@ -47,7 +47,13 @@
                   <td>{{ $category->name}}</td>
                   <td>{{ $category->parent_id}}</td>
                   <td>{{$category->url}}</td>
-                  <td>{{$category->status}}</td>
+
+                  <td >
+                    @if($category->status==1)
+                      <span style="color:green">Active</span>
+                    @else
+                      <span style="color:red">Inactive</span>
+                    @endif</td>
                   <td class="center"><a href="{{ url('admin/edit-category/'. $category->id) }}" class="btn btn-primary btn-mini">Edit</a> <a rel="{{ $category->id }}" rel1="delete-category" href="javascript:" class="btn btn-danger btn-mini deleteRecord">Delete</a></td>
                 </tr>
                 @endforeach

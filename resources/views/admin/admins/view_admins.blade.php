@@ -32,6 +32,8 @@
                 <tr>
                   <th style="text-align: left;">Admin ID</th>
                   <th style="text-align: left;">Username</th>
+                  <th style="text-align: left;">Type</th>
+                  <th style="text-align: left;">Roles</th>
                   <th style="text-align: left;">Status</th>
                   <th style="text-align: left;">Created on</th>
                   <th style="text-align: left;">Updated on</th>
@@ -40,9 +42,29 @@
               </thead>
               <tbody>
               	@foreach($admins as $admin)
+                <?php if($admin->type=="Admin"){
+                  $roles = "All";
+                }else{
+                  $roles="";
+                  if($admin->categories_access==1){
+                    $roles .="Categories,";
+                  }
+                  if($admin->products_access==1){
+                    $roles .="Products,";
+                  }
+                  if($admin->orders_access==1){
+                    $roles .="Orders,";
+                  }
+                  if($admin->users_access==1){
+                    $roles .="Users,";
+                  }
+                }
+                ?>
                 <tr class="gradeX">
                   <td class="center">{{ $admin->id }}</td>
                   <td class="center">{{ $admin->username }}</td>
+                  <td class="center">{{ $admin->type }}</td>
+                  <td class="center">{{ $roles }}</td>
                   <td class="center">
                     @if($admin->status==1)
                       <span style="color:green">Active</span>
@@ -52,7 +74,9 @@
                   </td>
                   <td class="center">{{ $admin->created_at }}</td>
                   <td class="center">{{ $admin->updated_at }}</td>
-                  <td class="center"></td>
+                  <td class="center">
+                    <a href="{{url('/admin/edit-admin/'.$admin->id) }}" class="btn btn-primary btn-mini">Edit</a>
+                  </td>
                 </tr>
                 @endforeach
               </tbody>

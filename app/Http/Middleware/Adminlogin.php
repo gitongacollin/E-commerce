@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Session;
+use App\Admin;
 
 class Adminlogin
 {
@@ -18,6 +19,11 @@ class Adminlogin
     {
         if(empty(Session::has('adminSession'))){
             return redirect('/admin');
+        }else{
+            //Get admin/Sub Admin details
+            $adminDetails = Admin::where('username',Session::get('adminSession'))->first();
+            /*$adminDetails = json_decode(json_encode($adminDetails));
+            echo "<pre>"; print_r($adminDetails);die;*/
         }
         return $next($request);
     }

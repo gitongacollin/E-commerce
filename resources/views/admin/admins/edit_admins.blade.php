@@ -3,8 +3,8 @@
 
 <div id="content">
   <div id="content-header">
-    <div id="breadcrumb"> <a href="{{ url ('/admin/dashboard')}}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#">Admins</a> <a href="#" class="current">Add Admins</a> </div>
-    <h1>Add Admins</h1>
+    <div id="breadcrumb"> <a href="{{ url ('/admin/dashboard')}}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#">Admins</a> <a href="#" class="current">Edit Admins</a> </div>
+    <h1>Edit Admins</h1>
     @if(Session::has('flash_message_error'))
       <div class="alert alert-error alert-block">
           <button type="button" class="close" data-dismiss="alert">×</button> 
@@ -23,42 +23,40 @@
       <div class="span12">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"> <i class="icon-info-sign"></i> </span>
-            <h5>Add Admins</h5>
+            <h5>Edit Admins</h5>
           </div>
           <div class="widget-content nopadding">
-            <form class="form-horizontal" method="post" action="{{ url('/admin/add-admins')}}" name="add_admins" id="add_admins" novalidate="novalidate">
-            	@csrf
+            <form class="form-horizontal" method="post" action="{{ url('/admin/edit-admin/'.$adminDetails->id)}}" name="edit_admins" id="edit_admins" novalidate="novalidate">
+              @csrf
               <div class="control-group">
                 <label class="control-label">Type</label>
                 <div class="controls">
-                  <select style="width: 220px" name="type" id="type">
-                    <option value="Admin">Admin</option>
-                    <option value="Sub Admin">Sub Admin</option>
-                  </select>
+                  <input type="text" name="type" id="type" readonly="" value="{{ $adminDetails->type }}">
                 </div>
               </div>
               <div class="control-group">
                 <label class="control-label">Username</label>
                 <div class="controls">
-                  <input type="text" name="username" id="username">
+                  <input type="text" name="username" id="username" readonly="" value="{{ $adminDetails->username }}">
                 </div>
               </div>
               <div class="control-group">
                 <label class="control-label">Password</label>
                 <div class="controls">
-                  <input type="password" name="password" id="password">
+                  <input type="password" name="password" id="password" required="" >
                 </div>
               </div>
-
-              <div class="control-group" id="access">
+              @if($adminDetails->type=="Sub Admin")
+              <div class="control-group">
                 <label class="control-label">Access</label>
                 <div class="controls">
-                  <input style="margin-top: -3px;" type="checkbox" name="categories_access" id="categories_access" value="1">&nbsp; Categories &nbsp;&nbsp;&nbsp;
-                  <input style="margin-top: -3px;" type="checkbox" name="products_access" id="products_access" value="1"> Products &nbsp;&nbsp;&nbsp;
-                  <input style="margin-top: -3px;" type="checkbox" name="orders_access" id="orders_access" value="1">&nbsp; Orders &nbsp;&nbsp;&nbsp;
-                  <input style="margin-top: -3px;" type="checkbox" name="users_access" id="users_access" value="1" >&nbsp; Users &nbsp;&nbsp;&nbsp;
+                  <input style="margin-top: -3px;" type="checkbox" name="categories_access" id="categories_access" value="1" @if($adminDetails->categories_access == "1") checked @endif>&nbsp; Categories &nbsp;&nbsp;&nbsp;
+                  <input style="margin-top: -3px;" type="checkbox" name="products_access" id="products_access" value="1" @if($adminDetails->products_access == "1") checked @endif> Products &nbsp;&nbsp;&nbsp;
+                  <input style="margin-top: -3px;" type="checkbox" name="orders_access" id="orders_access" value="1" @if($adminDetails->orders_access == "1") checked @endif>&nbsp; Orders &nbsp;&nbsp;&nbsp;
+                  <input style="margin-top: -3px;" type="checkbox" name="users_access" id="users_access" value="1" @if($adminDetails->users_access == "1") checked @endif>&nbsp; Users &nbsp;&nbsp;&nbsp;
                 </div>
               </div>
+              @endif
 
                <!-- <div class="control-group">
                 <label class="control-label">Admin Level</label>
@@ -71,11 +69,11 @@
               <div class="control-group">
                 <label class="control-label">Enable</label>
                 <div class="controls">
-                  <input type="checkbox" name="status" id="status" value="1">
+                  <input type="checkbox" name="status" id="status" value="1" @if($adminDetails->status == "1") checked @endif>
                 </div>
               </div>
               <div class="form-actions">
-                <input type="submit" value="Add Admin" class="btn btn-success">
+                <input type="submit" value="Edit Admin" class="btn btn-success">
               </div>
             </form>
           </div>
