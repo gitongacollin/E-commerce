@@ -24,7 +24,9 @@ use Carbon\Carbon;
 class ProductsController extends Controller
 {
     public function addProduct(Request $request){
-
+        if(Session::get('adminDetails')['products_access']==0){
+         return redirect('/admin/dashboard')->with('flash_message_error','You do not have access to view this page');
+        }
         if($request->isMethod('post')){
             $data= $request->all();
             //echo "<pre>"; print_r($data); die;
@@ -86,6 +88,9 @@ class ProductsController extends Controller
     }
 
     public function editProduct(Request $request,$id=null){
+        if(Session::get('adminDetails')['products_access']==0){
+         return redirect('/admin/dashboard')->with('flash_message_error','You do not have access to view this page');
+        }
         if($request->isMethod('post')){
             $data = $request->all();
             //echo "<pre>"; print_r($data); die;
@@ -150,6 +155,9 @@ class ProductsController extends Controller
 
 
     public function deleteProductImage($id=null){
+        if(Session::get('adminDetails')['products_access']==0){
+         return redirect('/admin/dashboard')->with('flash_message_error','You do not have access to view this page');
+        }
         // Get Product Image
         $productImage = Product::where('id',$id)->first();
 
@@ -180,6 +188,9 @@ class ProductsController extends Controller
     }
 
     public function deleteProduct($id = null){
+        if(Session::get('adminDetails')['products_access']==0){
+         return redirect('/admin/dashboard')->with('flash_message_error','You do not have access to view this page');
+        }
         if(!empty($id)){
             Product::where(['id' =>$id])->delete();
             return redirect()->back()->with('flash_message_success','Product Successfully deleted!'); 
@@ -187,6 +198,9 @@ class ProductsController extends Controller
     }
 
     public function viewProduct(){
+        if(Session::get('adminDetails')['products_access']==0){
+         return redirect('/admin/dashboard')->with('flash_message_error','You do not have access to view this page');
+        }
         $products = Product::orderBy('id','DESC')->get();
         $products = json_decode(json_encode($products));
         foreach ($products as $key => $val) {
@@ -197,6 +211,9 @@ class ProductsController extends Controller
     }
 
     public function addAttribute(Request $request, $id=null){
+        if(Session::get('adminDetails')['products_access']==0){
+         return redirect('/admin/dashboard')->with('flash_message_error','You do not have access to view this page');
+        }
         $productDetails = Product::with('attributes')->where(['id' => $id])->first();
         $productDetails = json_decode(json_encode($productDetails));
         //echo "<pre>"; print_r($productDetails); die;
@@ -235,11 +252,17 @@ class ProductsController extends Controller
     }
 
     public function deleteAttribute($id = null){
+        if(Session::get('adminDetails')['products_access']==0){
+         return redirect('/admin/dashboard')->with('flash_message_error','You do not have access to view this page');
+        }
         ProductsAttribute::where(['id'=>$id])->delete();
         return redirect()->back()->with('flash_message_success', 'Product Attribute has been deleted successfully');
     }
 
     public function editAttribute(Request $request,$id=null){
+        if(Session::get('adminDetails')['products_access']==0){
+         return redirect('/admin/dashboard')->with('flash_message_error','You do not have access to view this page');
+        }
         if($request->isMethod('post')){
             $data = $request->all();
             //echo "<pre>"; print_r($data);die;
@@ -403,6 +426,10 @@ class ProductsController extends Controller
     }
 
     public function deleteAltImage($id=null){
+
+        if(Session::get('adminDetails')['products_access']==0){
+         return redirect('/admin/dashboard')->with('flash_message_error','You do not have access to view this page');
+        }
         // Get Product Image
         $productImage = ProductsImage::where('id',$id)->first();
 
@@ -817,10 +844,18 @@ class ProductsController extends Controller
         return view('orders.thanks');
     }
 
+    public function thanksPaypal(){
+        return view('orders.thanks_paypal');
+    }
+
     public function paypal(Request $request){
         $user_email = Auth::user()->email;
         DB::table('cart')->where('user_email',$user_email)->delete();
         return view('orders.paypal');
+    }
+
+    public function cancelPaypal(){
+        return view('orders.cancel_paypal');
     }
 
     public function userOrders(){
@@ -839,6 +874,9 @@ class ProductsController extends Controller
     }
 
     public function viewOrders(){
+        if(Session::get('adminDetails')['orders_access']==0){
+         return redirect('/admin/dashboard')->with('flash_message_error','You do not have access to view this page');
+        }
         $orders = Order::with('orders')->orderBy('id','Desc')->get();
         $orders = json_decode(json_encode($orders));
         /*echo "<pre>"; print_r($orders); die;*/
@@ -857,6 +895,9 @@ class ProductsController extends Controller
     }
 
     public function viewOrderInvoice($order_id){
+        if(Session::get('adminDetails')['products_access']==0){
+         return redirect('/admin/dashboard')->with('flash_message_error','You do not have access to view this page');
+        }
         $orderDetails = Order::with('orders')->where('id',$order_id)->first();
         $orderDetails = json_decode(json_encode($orderDetails));
         /*echo "<pre>"; print_r($orderDetails); die;*/
@@ -868,6 +909,9 @@ class ProductsController extends Controller
     }
 
     public function updateOrderStatus(Request $request){
+        if(Session::get('adminDetails')['products_access']==0){
+         return redirect('/admin/dashboard')->with('flash_message_error','You do not have access to view this page');
+        }
         if($request->isMethod('post')){
             $data = $request->all();
             Order::where('id',$data['order_id'])->update(['order_status'=>$data['order_status']]);
@@ -876,6 +920,9 @@ class ProductsController extends Controller
     }
 
     public function viewOrdersCharts(){
+        if(Session::get('adminDetails')['products_access']==0){
+         return redirect('/admin/dashboard')->with('flash_message_error','You do not have access to view this page');
+        }
         $current_month_orders = Order::whereYear('created_at', Carbon::now()->year)
                                 ->whereMonth('created_at', Carbon::now()->month)->count(); 
         $last_month_orders = Order::whereYear('created_at', Carbon::now()->year)

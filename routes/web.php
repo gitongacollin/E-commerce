@@ -85,12 +85,17 @@ Route::match(['get','post'],'/order-review','ProductsController@orderReview');
 Route::match(['get','post'],'/place-order','ProductsController@placeOrder');
 //Thank you page
 Route::get('/thanks','ProductsController@thanks');
+
 //Users Order Page
 Route::get('/orders','ProductsController@userOrders');
 //user order product page
 Route::get('/orders/{id}','ProductsController@userOrderDetails');
 //PayPal page
 Route::get('/paypal','ProductsController@paypal');
+// Paypal Thanks Page
+Route::get('/paypal/thanks','ProductsController@thanksPaypal');
+// Paypal Cancel Page
+Route::get('/paypal/cancel','ProductsController@cancelPaypal');
 });
 
 Route::group(['middleware' => ['adminlogin']],function(){
@@ -191,4 +196,13 @@ Auth::routes();
 
 Route::get('/','IndexController@index');
 
-Route::get('/kwe', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home');
+
+// Display Contact Page
+Route::match(['get','post'],'/page/contact','CmsController@contact');
+
+// Display Post Page (for Vue.js)
+Route::match(['get','post'],'/page/post','CmsController@addPost');
+
+// Display CMS Page
+Route::match(['get','post'],'/page/{url}','CmsController@cmsPage');

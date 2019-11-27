@@ -90,6 +90,9 @@ class AdminController extends Controller
     }
 
     public function addAdmin(Request $request){
+        if(Session::get('adminDetails')['type']!=="Admin"){
+         return redirect('/admin/dashboard')->with('flash_message_error','You do not have access to view this page');
+        }
         if($request->isMethod('post')){
             $data = $request->all();
             /*echo "<pre>";print_r($data);die;*/
@@ -139,6 +142,9 @@ class AdminController extends Controller
     }
 
     public function editAdmin($id, Request $request){
+        if(Session::get('adminDetails')['type']!=="Admin"){
+         return redirect('/admin/dashboard')->with('flash_message_error','You do not have access to view this page');
+        }
         $adminDetails = Admin::where('id',$id)->first();
         /*$adminDetails = json_decode(json_encode($adminDetails));
         echo "<pre>";print_r($adminDetails);die;*/
@@ -163,7 +169,7 @@ class AdminController extends Controller
                     }
                     if(empty($data['users_access'])){
                         $data['users_access'] = 0;
-                    }
+                }
                     Admin::where('username',$data['username'])->update(['password'=>md5($data['password']),'status'=>$data['status'],'categories_access'=>$data['categories_access'],'products_access'=>$data['products_access'],'orders_access'=>$data['orders_access'],'users_access'=>$data['users_access']]);
                     return redirect()->back()->with('flash_message_success','Sub Admin updated successfully');
                 }

@@ -9,6 +9,9 @@ class CategoryController extends Controller
 {
    public function addCategory(Request $request)
    {
+      if(Session::get('adminDetails')['categories_access']==0){
+         return redirect('/admin/dashboard')->with('flash_message_error','You do not have access to view this page');
+      }
    	if($request->isMethod('post')){
    		$data = $request->all();
    		//echo "<pre>"; print_r($data); die;
@@ -41,6 +44,9 @@ class CategoryController extends Controller
 
    public function editCategory(Request $request, $id = null)
    {
+      if(Session::get('adminDetails')['categories_access']==0){
+         return redirect('/admin/dashboard')->with('flash_message_error','You do not have access to view this page');
+      }
    	if($request->isMethod('post'))
    	{
    		$data = $request->all();
@@ -64,5 +70,12 @@ class CategoryController extends Controller
    		Category::where(['id' =>$id])->delete();
    		return redirect()->back()->with('flash_message_success','Category Successfully deleted!'); 
    	}
+   }
+   public function viewCategories(){
+      if(Session::get('adminDetails')['categories_access']==0){
+         return redirect('/admin/dashboard')->with('flash_message_error','You do not have access to view this page');
+      }
+      $categories = Category::get();
+      return view('admin.categories.view_categories')->with(compact('categories'));
    }
 }

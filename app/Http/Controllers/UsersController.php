@@ -251,11 +251,17 @@ class UsersController extends Controller
     }
 
     public function viewUsers(){
+        if(Session::get('adminDetails')['users_access']==0){
+         return redirect('/admin/dashboard')->with('flash_message_error','You do not have access to view this page');
+        }
         $users = User::get();
         return view('admin.users.view_users')->with(compact('users'));
     }
 
     public function viewUsersCharts(){
+        if(Session::get('adminDetails')['users_access']==0){
+         return redirect('/admin/dashboard')->with('flash_message_error','You do not have access to view this page');
+        }
         $current_month_users = User::whereYear('created_at', Carbon::now()->year)
                                 ->whereMonth('created_at', Carbon::now()->month)->count(); 
         $last_month_users = User::whereYear('created_at', Carbon::now()->year)

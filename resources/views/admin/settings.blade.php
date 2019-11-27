@@ -3,8 +3,8 @@
 
 <div id="content">
   <div id="content-header">
-    <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="current">Settings</a> </div>
-    <h1>Admin Settings</h1>
+    <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="current">Details</a> </div>
+    <h1>Admin Details</h1>
     <div id="loginbox">
         @if(Session::has('flash_message_error'))
             <div class="alert alert-danger alert-block">
