@@ -14,7 +14,7 @@ $maincategories = Controller::maincategories();
                             </ul>
                         </div>
                     </div>
-                    <div class="col-sm-6">
+                    <!-- <div class="col-sm-6">
                         <div class="social-icons pull-right">
                             <ul class="nav navbar-nav">
                                 <li><a href="#"><i class="fa fa-facebook"></i></a></li>
@@ -22,7 +22,7 @@ $maincategories = Controller::maincategories();
                                 <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
                             </ul>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div><!--/header_top-->
@@ -74,7 +74,7 @@ $maincategories = Controller::maincategories();
                     <div class="col-md-8 clearfix">
                         <div class="shop-menu clearfix pull-right">
                             <ul class="nav navbar-nav">
-                                <li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
+                                <!-- <li><a href=""><i class="fa fa-star"></i> Wishlist</a></li> -->
                                 <li><a href="{{url('/cart')}}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
                                 @if(empty(Auth::check()))
                                     <li><a href="{{url ('/login-register') }}"><i class="fa fa-lock"></i> Login</a></li>
@@ -121,7 +121,7 @@ $maincategories = Controller::maincategories();
                                         <li><a href="#">Blog Single</a></li>
                                     </ul>
                                 </li> -->
-                                <li><a href="#">Contact</a></li>
+                                <li><a href="{{ url('page/contact') }}">Contact</a></li>
                             </ul>
                         </div>
                     </div>

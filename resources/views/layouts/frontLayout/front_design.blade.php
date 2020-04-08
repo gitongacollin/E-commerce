@@ -27,6 +27,8 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{asset ('images/frontend_images/ico/apple-touch-icon-114-precomposed.png') }}">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{asset ('images/frontend_images/ico/apple-touch-icon-72-precomposed.png') }}">
     <link rel="apple-touch-icon-precomposed" href="{{asset ('images/frontend_images/ico/apple-touch-icon-57-precomposed.png') }}">
+
+
 </head><!--/head-->
 
 <body>
@@ -48,5 +50,7 @@
     <script src="{{ asset('js/frontend_js/main.js')}}"></script>
     <script src="{{ asset('js/frontend_js/jquery.validate.js') }}"></script>
     <script src="{{ asset('js/frontend_js/passtrength.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/frontend_js/mailchimp.js') }}" data-dojo-config="usePlainJson: true, isDebug: false"></script>
+    <script type="text/javascript">window.dojoRequire(["mojo/signup-forms/Loader"], function(L) { L.start({"baseUrl":"mc.us4.list-manage.com","uuid":"a9bd925d3c0f180fb72fbafeb","lid":"c8218a5a38","uniqueMethods":true}) })</script>
 </body>
 </html>

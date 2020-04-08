@@ -30,13 +30,13 @@
         <li class="bg_lg"> <a href="{{ url('/admin/view-users-charts')}}"> <i class="icon-signal"></i> Charts</a> </li>
         @endif
         @if(Session::get('adminDetails')['categories_access']==1)
-        <li class="bg_ly"> <a href="{{ url('/admin/view-category')}}"> <i class="icon-inbox"></i><span class="label label-success">101</span> Categories </a> </li>
+        <li class="bg_ly"> <a href="{{ url('/admin/view-category')}}"> <i class="icon-inbox"></i><span class="label label-success"></span> Categories </a> </li>
         @endif
         @if(Session::get('adminDetails')['products_access']==1)
-        <li class="bg_lo"> <a href="{{ url('/admin/view-product')}}"> <i class="icon-inbox"></i><span class="label label-success">101</span> Products </a> </li>
+        <li class="bg_lo"> <a href="{{ url('/admin/view-product')}}"> <i class="icon-inbox"></i><span class="label label-success"></span> Products </a> </li>
         @endif
         @if(Session::get('adminDetails')['orders_access']==1)
-        <li class="bg_lr"> <a href="{{ url('/admin/view-orders')}}"> <i class="icon-inbox"></i><span class="label label-success">101</span> Orders </a> </li>
+        <li class="bg_lr"> <a href="{{ url('/admin/view-orders')}}"> <i class="icon-inbox"></i><span class="label label-success"></span> Orders </a> </li>
         @endif
         @if(Session::get('adminDetails')['users_access']==1)
         <li class="bg_ly"> <a href="{{ url('/admin/view-users')}}"> <i class="icon-signal"></i> Users</a> </li>
@@ -49,15 +49,15 @@
 <!--Chart-box-->    
     <div class="row-fluid">
       <div class="widget-box">
-        <div class="widget-title bg_lg"><span class="icon"><i class="icon-signal"></i></span>
+        <!-- <div class="widget-title bg_lg"><span class="icon"><i class="icon-signal"></i></span>
           <h5>Site Analytics</h5>
-        </div>
+        </div> -->
         <div class="widget-content" >
           <div class="row-fluid">
             <div class="span9">
               <div class="chart"></div>
             </div>
-            <div class="span3">
+            <!-- <div class="span3">
               <ul class="site-stats">
                 <li class="bg_lh"><i class="icon-user"></i> <strong>2540</strong> <small>Total Users</small></li>
                 <li class="bg_lh"><i class="icon-plus"></i> <strong>120</strong> <small>New Users </small></li>
@@ -66,14 +66,14 @@
                 <li class="bg_lh"><i class="icon-repeat"></i> <strong>10</strong> <small>Pending Orders</small></li>
                 <li class="bg_lh"><i class="icon-globe"></i> <strong>8540</strong> <small>Online Orders</small></li>
               </ul>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
     </div>
 <!--End-Chart-box--> 
     <hr/>
-    <div class="row-fluid">
+    <!-- <div class="row-fluid">
       <div class="span6">
         <div class="widget-box">
           <div class="widget-title bg_ly" data-toggle="collapse" href="#collapseG2"><span class="icon"><i class="icon-chevron-down"></i></span>
@@ -106,7 +106,7 @@
         </div>
         
       </div>
-    </div>
+    </div> -->
   </div>
 </div>
 
