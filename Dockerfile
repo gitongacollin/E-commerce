@@ -1,15 +1,14 @@
-FROM php:7.2.34-apache
+FROM php:7.2-fpm
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
-    mariadb-client \
     zip \
     unzip \
     git \
     && docker-php-ext-install pdo pdo_mysql gd mbstring tokenizer
 
-RUN a2enmod rewrite
+
 WORKDIR /var/www/html
 
 COPY . .

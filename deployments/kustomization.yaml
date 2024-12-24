@@ -1,4 +1,4 @@
 resources:
 - envs.yaml
-- sql-deployment.yaml
-- web-deployment.yaml
+- nginx.yaml
+- web.yaml

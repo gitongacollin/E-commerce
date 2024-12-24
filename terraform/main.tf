@@ -43,6 +43,20 @@ resource "aws_security_group" "app_sg" {
         protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
     }
+    ingress {
+        description = "Kubernetes NodePort Range"
+        from_port = 30000
+        to_port = 32767
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+    ingress {
+        description = "SSH Access"
+        from_port = 22
+        to_port = 22
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
     egress {
         from_port = 0
         to_port = 0
@@ -84,9 +98,40 @@ resource "aws_launch_template" "app_template" {
     user_data = <<-EOF
                 #!/bin/bash
                 sudo apt-get update -y
-                sudo apt-get install nginx -y
-                sudo systemctl start nginx
-                sudo systemctl enable nginx
+                sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+
+                curl -fsSL https://get.docker.com -o get-docker.sh
+                sudo sh get-docker.sh
+                sudo usermod -aG docker ubuntu
+                sudo systemctl enable docker
+                sudo systemctl start docker
+
+                # Install kubectl
+                curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+                sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+                curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+                sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+                sudo -u ubuntu minikube start --driver=docker
+                echo 'eval $(minikube docker-env)' >> /home/ubuntu/.bashrc
+
+                
+                sudo apt-get install -y git
+                sudo chown -R ubuntu:ubuntu /home/ubuntu/.kube
+                sudo chown -R ubuntu:ubuntu /home/ubuntu/.minikube
+
+                # Install docker-compose
+                sudo curl -L "https://github.com/docker/compose/releases/download/v2.20.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+                sudo chmod +x /usr/local/bin/docker-compose
+                
+                sudo apt-get install -y apt-transport-https ca-certificates curl
+                sudo curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+                echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+                sudo apt-get update -y
+                sudo apt-get install -y kubectl
+
+                kubectl version --client
                 EOF
 }
 

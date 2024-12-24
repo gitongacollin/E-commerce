@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Session;
 
-class FrontloginMiddleware
+class Frontlogin
 {
     /**
      * Handle an incoming request.

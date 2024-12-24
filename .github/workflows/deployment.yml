@@ -2,6 +2,7 @@ name: Build and Deploy Laravel app
 on:
     push:
         branches:
+            - develop
             - main
 
 jobs:
@@ -21,22 +22,40 @@ jobs:
               uses: docker/build-push-action@v3
               with: 
                 context: . 
+                file: ./Dockerfile
                 push: true
-                tags: ${{ secrets.DOCKER_USERNAME }}/e-commerce:latest
+                tags: ${{ secrets.DOCKER_USERNAME }}/e-commerce:dev
         
     deploy:
+        needs: build-and-push 
         runs-on: ubunutu-latest
         steps:
             - name: Checkout Code
               uses: actions/checkout@v4
-
-            - name: Set up Kubernetes context
-              uses: azure/k8s-set-context@v1
+            
+            - name: copy files to target server via scp
+              uses: appleboy/scp-action@v0.1.3
               with:
-                method: kubeconfig
-                kubeconfig: ${{ secrets.KUBECONFIG }}
-      
-            - name: Deploy to Kubernetes
-              run: |
-                kubectl apply -f deployment.yaml
-                kubectl apply -f service.yaml
+                host: ${{ secrets.DEPLOY_HOST }}
+                username: ${{ secrets.DEPLOY_USERNAME }}
+                port: 22
+                key: ${{ secrets.DEPLOY_KEY }}
+                strip_components: 2
+                source: "./deployments/envs.yml,./deployments/kustomization.yaml,./deployments/nginx,yaml,./deployments/web.yaml"
+                target: "~/.ecommerce/${{ github.event.repository.name }}/"
+
+            - name: remote login via ssh
+              uses: appleboy/ssh-action@v1.0.3
+              env:
+                APPTOKEN: ${{ secrets.ACCESS_TOKEN }}
+                GITHUB_ACTOR: ${{ secrets.actor }}
+              with:
+                host: ${{ secrets.DEPLOY_HOST }}
+                username: ${{ secrets.DEPLOY_USERNAME }}
+                key: ${{ secrets.DEPLOY_KEY }}
+                port: 22
+                envs: APPTOKEN,GITHUB_ACTOR
+                script: |
+                  echo $APPTOKEN | docker login -u $GITHUB_ACTOR --password-stdin
+                  cd ~/.ecommerce/${{ github.event.repository.name }}
+                  kubectl apply -f kustomization.yaml
