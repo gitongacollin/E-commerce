@@ -38,7 +38,7 @@ This project demonstrates deploying an e-commerce application on Amazon Elastic 
     - Nginx handles reverse proxying requests to the application and will manage HTTPS traffic once SSL is configured.
 
 - **Use of EC2 Over Managed Services:**
-    - Based on project requirements, EC2.
+    - Based on project requirements, EC2 was used on this project.
 
 - **Autoscaling**:
     - Added horizontal autoscaling policies in Terraform to handle varying loads.
