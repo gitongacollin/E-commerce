@@ -1,0 +1,4 @@
+resources:
+- envs.yaml
+- nginx.yaml
+- web.yaml

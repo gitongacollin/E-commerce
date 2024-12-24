@@ -14,10 +14,11 @@ class UsersTableSeeder extends Seeder
     {
         User::create([
             'name'=>'Collin',
-            'email'=>'njugushtosh@gmail.com',
+            'email'=>'collin.gitonga@gmail.com',
             'password'=>bcrypt('123456'),
-            'admin'=>1,
-            'remember_token'=>str_random(10),
+            'email_verified_at' => now(),
+            //'admin'=>1,
+            'remember_token'=>bin2hex(random_bytes(10)),
         ]);
     }
 }
