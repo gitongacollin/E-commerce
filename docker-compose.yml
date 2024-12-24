@@ -1,11 +1,9 @@
 version: '3'
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: collingitonga/e-commerce:dev
     ports:
-      - "6546:8000"
+      - "6546:7000"
     depends_on:
       - db
     
@@ -16,9 +14,9 @@ services:
       - DB_CONNECTION=mysql
       - DB_HOST=db
       - DB_PORT=3306
-      - DB_DATABASE=laravel
-      - DB_USERNAME=root
-      - DB_PASSWORD=secret
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
 
   db:
     #image: mysql:latest
