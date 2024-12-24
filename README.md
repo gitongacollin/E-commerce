@@ -9,13 +9,13 @@ This project demonstrates deploying an e-commerce application on Amazon Elastic 
 
 ## Highlights:
 
-    **Backend**: Laravel application
-    **Database**: MySQL (Amazon RDS)
-    **Web Server**: Nginx for reverse proxy and static file serving.
-    **Infrastructure**:
-        - AWS EC2 instances for the application and Nginx.
-        - Amazon RDS for MySQL database.
-        - Dockerhub for container images
+**Backend**: Laravel application
+**Database**: MySQL (Amazon RDS)
+**Web Server**: Nginx for reverse proxy and static file serving.
+**Infrastructure**:
+    - AWS EC2 instances for the application and Nginx.
+    - Amazon RDS for MySQL database.
+    - Dockerhub for container images
 
 ## Deployment Steps:
 - Clone the repository
