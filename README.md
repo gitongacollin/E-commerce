@@ -43,7 +43,6 @@ This project demonstrates deploying an e-commerce application on Amazon Elastic 
 - **Autoscaling**:
     - Added horizontal autoscaling policies in Terraform to handle varying loads.
 
-- 
 **NOTE** 
 - Ensure you update the github action secrets.
 - Ensure to update the terraform script.
